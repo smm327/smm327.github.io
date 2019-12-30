@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | 孙苗苗的博客</title>
+  <title>前端框架的文件结构 | 孙苗苗的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="孙苗苗的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+  <meta name="description" content="React1.传统的MVC结构在MVC中，应用代码分为Controller,Model,View，分别代表三种模块角色，就是把所有的Controller代码放在controller文件夹下，把所有的Model代码放在model文件夹下，把View代码放在view文件夹下。在开发一些简单的Redux应用时，可以使用这种页面划分方法。如下所示：  app.jsactions   actionA.jsa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端框架的文件结构">
+<meta property="og:url" content="http://yoursite.com/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="孙苗苗的博客">
+<meta property="og:description" content="React1.传统的MVC结构在MVC中，应用代码分为Controller,Model,View，分别代表三种模块角色，就是把所有的Controller代码放在controller文件夹下，把所有的Model代码放在model文件夹下，把View代码放在view文件夹下。在开发一些简单的Redux应用时，可以使用这种页面划分方法。如下所示：  app.jsactions   actionA.jsa">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2019/12/22/images/2019-12-22/dva.jpg">
+<meta property="article:published_time" content="2019-12-22T09:18:47.000Z">
+<meta property="article:modified_time" content="2019-12-30T12:38:09.836Z">
 <meta property="article:author" content="孙苗苗">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/22/images/2019-12-22/dva.jpg">
   
     <link rel="alternative" href="/atom.xml" title="孙苗苗的博客" type="application/atom+xml">
   
@@ -150,157 +156,355 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-前端框架的文件结构" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      前端框架的文件结构
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
+
+        
+        <a href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
   	<time datetime="2019-12-22T09:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-22</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">前端框架的文件结构</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="1-传统的MVC结构"><a href="#1-传统的MVC结构" class="headerlink" title="1.传统的MVC结构"></a>1.传统的MVC结构</h3><p>在MVC中，应用代码分为Controller,Model,View，分别代表三种模块角色，就是把所有的Controller代码放在controller文件夹下，把所有的Model代码放在model文件夹下，把View代码放在view文件夹下。在开发一些简单的Redux应用时，可以使用这种页面划分方法。如下所示：</p>
+<blockquote>
+<p>app.js<br>actions </p>
+<blockquote>
+<p>actionA.js<br>actionB.js</p>
+</blockquote>
+<p>reducers</p>
+<blockquote>
+<p>reducerA.js<br>reducerB.js</p>
+</blockquote>
+<p>components</p>
+<blockquote>
+<p>componentsA.js<br>componentsB.js</p>
+</blockquote>
+<p>containers</p>
+<blockquote>
+<p>containerA.js<br>containerB.js</p>
+</blockquote>
+</blockquote>
+<p>在这里对container和component作以下区分：</p>
+<ul>
+<li>Container通常会负责和服务端的沟通，还有一些业务逻辑的处理。他们通常只负责获取数据，处理数据，处理状态，但一般不知道如何去展示页面。</li>
+<li>Component通常不知道数据如何获取，也不知道这些数据是做什么用的，更不知道怎么去操作这些数据，他们一般只负责页面的渲染，把领导给的数据放到对应的位置。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>container</th>
+<th>component</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目的</td>
+<td>如何工作（数据获取、状态更新）</td>
+<td>如何展示（样式、布局）</td>
+</tr>
+<tr>
+<td>是否在Redux数据流中</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>读取数据</td>
+<td>从Redux中获取数据</td>
+<td>从props中获取数据</td>
+</tr>
+<tr>
+<td>修改数据</td>
+<td>向Redux派发action</td>
+<td>从props调用回调函数</td>
+</tr>
+</tbody></table>
+<h3 id="2-按功能组织"><a href="#2-按功能组织" class="headerlink" title="2.按功能组织"></a>2.按功能组织</h3><p>Redux应用适合于“按功能组织”，也就是把完成同一应用功能的代码放在一个目录下，一个应用功能包含多个角色的代码。Redux中，不同的角色就是reducer、actions和视图，而应用功能对应的就是用户界面的交互模块。<br>例如分为todoA和todoB两个功能，则可以使用以下页面结构：</p>
+<blockquote>
+<p>todoA</p>
+<blockquote>
+<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
+<blockquote>
+<p>container.js<br>component.js</p>
+</blockquote>
+</blockquote>
+<p>todoB</p>
+<blockquote>
+<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
+<blockquote>
+<p>container.js<br>component.js</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>每个功能模块对应一个目录，分别是todoA和todoB，每个目录下包含同样的角色文件：</p>
+<ul>
+<li>actionTypes.js 定义action类型；</li>
+<li>actions.js 定义action构造函数；</li>
+<li>reducer.js定义这个功能模块如果响应actions.js定义的动作；</li>
+<li>views 包含功能模块中所有的React组件，包括展示组件和容器组件；</li>
+<li>index.js 把所有的角色导入，统一导出。</li>
+</ul>
+<p>这种组织方式下，当你要修改某个模块时，只要关注对应的目录即可。</p>
+<h3 id="3-推荐的Redux项目目录结构"><a href="#3-推荐的Redux项目目录结构" class="headerlink" title="3.推荐的Redux项目目录结构"></a>3.推荐的Redux项目目录结构</h3><p>但常常一个项目都不会太简单，所以推荐使用上面两种方式的结合。<br>既采用了类型划分的优势，又添加了功能划分的特点。<br>如下所示：</p>
+<blockquote>
+<p>app.js    // 整个应用的入口</p>
+<blockquote>
+<p>views    // 应用中某个页面的入口文件，一般为路由组件。</p>
+<blockquote>
+<p>ViewTodoA.js<br>ViewTodoB.js</p>
+</blockquote>
+</blockquote>
+<p>components    // 所应用的组件</p>
+<blockquote>
+<p>todoA</p>
+<blockquote>
+<p>TodoAComponentOne.js<br>TodoACompnentTwo.js</p>
+</blockquote>
+<p>todoB</p>
+<blockquote>
+<p>TodoBComponentOne.js<br>TodoBCompnentTwo.js</p>
+</blockquote>
+<p>common   // 不归属与任何view的组件。例如一些公共组件。</p>
+</blockquote>
+<p>containers    // 如上<br>layouts    // 布局相关的组件及样式，如菜单，侧边栏，header,footer等。<br>redux   // Redux Store 相关的配置</p>
+<blockquote>
+<p>reducers.js    // 整个应用中所有reducer的汇总<br>store.js   // 整个项目的store</p>
+</blockquote>
+<p>routers   // 路由相关的配置<br>utils   // 工具函数，常量等<br>styles    // 全局公共样式</p>
+</blockquote>
+<h2 id="umi"><a href="#umi" class="headerlink" title="umi"></a>umi</h2><p>umi，中文可发音为乌米，是一个可插拔的企业级react应用框架。umi以路由为基础的，支持<a href="https://umijs.org/zh/guide/router.html" target="_blank" rel="noopener">类next.js的约定式路由</a>，以及各种进阶的路由功能，并以此进行功能扩展，比如<a href="https://umijs.org/zh/plugin/umi-plugin-react.html#dynamicimport" target="_blank" rel="noopener">支持路由级的按需加载</a>。然后配以完善的<a href="https://umijs.org/zh/plugin/" target="_blank" rel="noopener">插件体系</a>，覆盖从源码到构建产物的每个生命周期，支持各种功能扩展和业务需求，目前内外部加起来已有50+的插件。</p>
+<p>在文件和目录的组织上，umi更倾向于选择约定的方式。<br>一个复杂应用的目录结构如下：</p>
+<blockquote>
+<p>dist    // 默认的 build 输出目录<br>mock    // mock文件所在目录，基于express<br>config</p>
+<blockquote>
+<p>config.js    // umi 配置，同.umirc.js，二选一</p>
+</blockquote>
+<p>src    // 源码目录，可选。如果不存在src目录，则当前目录会被作为源码目录。</p>
+<blockquote>
+<p>layout/index.js     // 全局布局<br>pages    // 页面目录，里面的文件即路由</p>
+<blockquote>
+<p>.umi/   // dev 临时目录，需添加到 .gitignore<br>.umi-production   // build 临时目录，会自动删除<br>document.ejs    // HTML 模板<br>page1.js    // 页面 1，任意命名，导出 react 组件<br>page1.test.js   // 用例文件，umi test 会匹配所有 .test.js 和 .e2e.js 结尾的文件<br>page2.js    // 页面 2，任意命名</p>
+</blockquote>
+<p>global.css   // 约定的全局样式文件，自动引入，也可以用 global.less<br>global.js    // 可以在这里加入 polyfill<br>app.js   // 运行时配置文件 </p>
+</blockquote>
+<p>.umirc.js   // umi 配置，同 config/config.js，二选一<br>.env    // 环境变量<br>package.json</p>
+</blockquote>
+<p>约定式路由： umi会根据pages下的文件自动生成路由配置。umi里约定，带$前缀的目录或文件为动态路由；带$后缀，则为可选动态路由。约定目录下有 _layout.js时会生成嵌套路由，以 _layout.js为该目录的 layout。<br>如果你倾向于使用配置式的路由，可以配置.umirc.(ts|js) 或者config/config.(ts|js) 配置文件中的routes属性，此配置项存在时则不会对src/pages 目录做约定式的解析。src下的目录可为：</p>
+<blockquote>
+<p>src  // 应用的所有代码</p>
+<blockquote>
+<p>actions     // 处理异步请求<br>assets      // 静态资源<br>components  // 公用组件<br>pages       // 业务逻辑页面<br>reducers    // reducer 状态处理<br>util        // 公用方法<br>index.html  // 项目模板<br>index.js    // 项目入口</p>
+</blockquote>
+</blockquote>
+<h2 id="dva"><a href="#dva" class="headerlink" title="dva"></a>dva</h2><p>dva是一个基于<a href="https://github.com/reduxjs/redux" target="_blank" rel="noopener">redux</a>和<a href="https://github.com/redux-saga/redux-saga" target="_blank" rel="noopener">redux-saga</a>的数据流方案，然后为了简化开发体验，dva还额外内置了<a href="https://github.com/ReactTraining/react-router" target="_blank" rel="noopener">react-router</a>和<a href="https://github.com/github/fetch" target="_blank" rel="noopener">fetch</a>，所以也可以理解为一个轻量级的应用框架。</p>
+<h4 id="命名由来"><a href="#命名由来" class="headerlink" title="命名由来"></a>命名由来</h4><blockquote>
+<p>D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。</p>
+</blockquote>
+<!-- > <p align="right">---------来自[守望先锋](https://ow.blizzard.cn/heroes/overwatch-dva)</p> -->
 
-        <div class="article-info info-on-right">
-          
-          
+<p><img src="../images/2019-12-22/dva.jpg" alt="dva"></p>
+<p>由dva-cli搭建的项目目录结构如下</p>
+<blockquote>
+<p>src</p>
+<blockquote>
+<p>assets   // 静态资源<br>components   // UI Component<br>models   // dva通过model的概念把一个领域的模型管理起来，包含同步更新state的reducers，处理异步逻辑的effects，订阅数据源的subscriptions 。<br>routes   // router.js中路由下的component</p>
+<blockquote>
+<p>IndexPage.css<br>IndexPage.js</p>
+</blockquote>
+<p>services   // 网络请求<br>utils    // 公用方法</p>
+<blockquote>
+<p>request.js    // fetch</p>
+</blockquote>
+<p>index.js   // init dva<br>router.js    // 定义路由</p>
+</blockquote>
+</blockquote>
+<h2 id="umi-dva"><a href="#umi-dva" class="headerlink" title="umi+dva"></a>umi+dva</h2><p>在umi的官网，推荐umi和dva一起使用</p>
+<ul>
+<li>umi可以简单地理解为roadhog+路由，思路类似next.js/nuxt.js，辅以一套插件机制，目的是通过框架的方式简化React开发</li>
+<li>dva目前是纯粹的数据流，和umi以及roadhog之间并没有相互的依赖关系，可以分开使用也可以一起使用，个人觉得<a href="https://github.com/sorrycc/blog/issues/66" target="_blank" rel="noopener">umi+dva是比较搭的</a><br>根据上面的介绍，dva项目之前通常都是扁平的组织方式，而用了umi后，可以按页面维度进行组织。<blockquote>
+<p>src</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>g.js</p>
+</blockquote>
+<p>pages</p>
+<blockquote>
+<p>a</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>a.js<br>b.js<br>ss</p>
+<blockquote>
+<p>s.js</p>
+</blockquote>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+<p>c</p>
+<blockquote>
+<p>model.js<br>d</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>d.js</p>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<p>如上目录：</p>
+<ul>
+<li>global model 为 src/models/g.js</li>
+<li>/a 的 page model 为 src/pages/a/models/{a,b,ss/s}.js</li>
+<li>/c 的 page model 为 src/pages/c/model.js</li>
+<li>/c/d 的 page model 为 src/pages/c/model.js, src/pages/c/d/models/d.js</li>
+</ul>
+<p>好处是加结构更加清晰了，减少耦合，一删全删，方便 copy 和共享。</p>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/" class="archive-article-date">
-  	<time datetime="2019-12-16T14:14:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Git内部原理揭秘</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/">Git内部原理揭秘</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/" class="archive-article-date">
-  	<time datetime="2019-11-19T10:40:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/">Git恢复-Reset、Revert</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/23/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%A4%A7%E5%9E%8BReact%E5%BA%94%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2019-10-23T10:37:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/23/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%A4%A7%E5%9E%8BReact%E5%BA%94%E7%94%A8/">如何构建大型React应用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/25/React%E5%92%8CVue%E7%BB%84%E4%BB%B6%E9%97%B4%E9%80%9A%E4%BF%A1/" class="archive-article-date">
-  	<time datetime="2019-09-25T10:29:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/25/React%E5%92%8CVue%E7%BB%84%E4%BB%B6%E9%97%B4%E9%80%9A%E4%BF%A1/">React和Vue组件间通信</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -323,8 +527,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

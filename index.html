@@ -152,6 +152,268 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-前端框架的文件结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">前端框架的文件结构</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
+  	<time datetime="2019-12-22T09:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="1-传统的MVC结构"><a href="#1-传统的MVC结构" class="headerlink" title="1.传统的MVC结构"></a>1.传统的MVC结构</h3><p>在MVC中，应用代码分为Controller,Model,View，分别代表三种模块角色，就是把所有的Controller代码放在controller文件夹下，把所有的Model代码放在model文件夹下，把View代码放在view文件夹下。在开发一些简单的Redux应用时，可以使用这种页面划分方法。如下所示：</p>
+<blockquote>
+<p>app.js<br>actions </p>
+<blockquote>
+<p>actionA.js<br>actionB.js</p>
+</blockquote>
+<p>reducers</p>
+<blockquote>
+<p>reducerA.js<br>reducerB.js</p>
+</blockquote>
+<p>components</p>
+<blockquote>
+<p>componentsA.js<br>componentsB.js</p>
+</blockquote>
+<p>containers</p>
+<blockquote>
+<p>containerA.js<br>containerB.js</p>
+</blockquote>
+</blockquote>
+<p>在这里对container和component作以下区分：</p>
+<ul>
+<li>Container通常会负责和服务端的沟通，还有一些业务逻辑的处理。他们通常只负责获取数据，处理数据，处理状态，但一般不知道如何去展示页面。</li>
+<li>Component通常不知道数据如何获取，也不知道这些数据是做什么用的，更不知道怎么去操作这些数据，他们一般只负责页面的渲染，把领导给的数据放到对应的位置。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>container</th>
+<th>component</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目的</td>
+<td>如何工作（数据获取、状态更新）</td>
+<td>如何展示（样式、布局）</td>
+</tr>
+<tr>
+<td>是否在Redux数据流中</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>读取数据</td>
+<td>从Redux中获取数据</td>
+<td>从props中获取数据</td>
+</tr>
+<tr>
+<td>修改数据</td>
+<td>向Redux派发action</td>
+<td>从props调用回调函数</td>
+</tr>
+</tbody></table>
+<h3 id="2-按功能组织"><a href="#2-按功能组织" class="headerlink" title="2.按功能组织"></a>2.按功能组织</h3><p>Redux应用适合于“按功能组织”，也就是把完成同一应用功能的代码放在一个目录下，一个应用功能包含多个角色的代码。Redux中，不同的角色就是reducer、actions和视图，而应用功能对应的就是用户界面的交互模块。<br>例如分为todoA和todoB两个功能，则可以使用以下页面结构：</p>
+<blockquote>
+<p>todoA</p>
+<blockquote>
+<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
+<blockquote>
+<p>container.js<br>component.js</p>
+</blockquote>
+</blockquote>
+<p>todoB</p>
+<blockquote>
+<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
+<blockquote>
+<p>container.js<br>component.js</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>每个功能模块对应一个目录，分别是todoA和todoB，每个目录下包含同样的角色文件：</p>
+<ul>
+<li>actionTypes.js 定义action类型；</li>
+<li>actions.js 定义action构造函数；</li>
+<li>reducer.js定义这个功能模块如果响应actions.js定义的动作；</li>
+<li>views 包含功能模块中所有的React组件，包括展示组件和容器组件；</li>
+<li>index.js 把所有的角色导入，统一导出。</li>
+</ul>
+<p>这种组织方式下，当你要修改某个模块时，只要关注对应的目录即可。</p>
+<h3 id="3-推荐的Redux项目目录结构"><a href="#3-推荐的Redux项目目录结构" class="headerlink" title="3.推荐的Redux项目目录结构"></a>3.推荐的Redux项目目录结构</h3><p>但常常一个项目都不会太简单，所以推荐使用上面两种方式的结合。<br>既采用了类型划分的优势，又添加了功能划分的特点。<br>如下所示：</p>
+<blockquote>
+<p>app.js    // 整个应用的入口</p>
+<blockquote>
+<p>views    // 应用中某个页面的入口文件，一般为路由组件。</p>
+<blockquote>
+<p>ViewTodoA.js<br>ViewTodoB.js</p>
+</blockquote>
+</blockquote>
+<p>components    // 所应用的组件</p>
+<blockquote>
+<p>todoA</p>
+<blockquote>
+<p>TodoAComponentOne.js<br>TodoACompnentTwo.js</p>
+</blockquote>
+<p>todoB</p>
+<blockquote>
+<p>TodoBComponentOne.js<br>TodoBCompnentTwo.js</p>
+</blockquote>
+<p>common   // 不归属与任何view的组件。例如一些公共组件。</p>
+</blockquote>
+<p>containers    // 如上<br>layouts    // 布局相关的组件及样式，如菜单，侧边栏，header,footer等。<br>redux   // Redux Store 相关的配置</p>
+<blockquote>
+<p>reducers.js    // 整个应用中所有reducer的汇总<br>store.js   // 整个项目的store</p>
+</blockquote>
+<p>routers   // 路由相关的配置<br>utils   // 工具函数，常量等<br>styles    // 全局公共样式</p>
+</blockquote>
+<h2 id="umi"><a href="#umi" class="headerlink" title="umi"></a>umi</h2><p>umi，中文可发音为乌米，是一个可插拔的企业级react应用框架。umi以路由为基础的，支持<a href="https://umijs.org/zh/guide/router.html" target="_blank" rel="noopener">类next.js的约定式路由</a>，以及各种进阶的路由功能，并以此进行功能扩展，比如<a href="https://umijs.org/zh/plugin/umi-plugin-react.html#dynamicimport" target="_blank" rel="noopener">支持路由级的按需加载</a>。然后配以完善的<a href="https://umijs.org/zh/plugin/" target="_blank" rel="noopener">插件体系</a>，覆盖从源码到构建产物的每个生命周期，支持各种功能扩展和业务需求，目前内外部加起来已有50+的插件。</p>
+<p>在文件和目录的组织上，umi更倾向于选择约定的方式。<br>一个复杂应用的目录结构如下：</p>
+<blockquote>
+<p>dist    // 默认的 build 输出目录<br>mock    // mock文件所在目录，基于express<br>config</p>
+<blockquote>
+<p>config.js    // umi 配置，同.umirc.js，二选一</p>
+</blockquote>
+<p>src    // 源码目录，可选。如果不存在src目录，则当前目录会被作为源码目录。</p>
+<blockquote>
+<p>layout/index.js     // 全局布局<br>pages    // 页面目录，里面的文件即路由</p>
+<blockquote>
+<p>.umi/   // dev 临时目录，需添加到 .gitignore<br>.umi-production   // build 临时目录，会自动删除<br>document.ejs    // HTML 模板<br>page1.js    // 页面 1，任意命名，导出 react 组件<br>page1.test.js   // 用例文件，umi test 会匹配所有 .test.js 和 .e2e.js 结尾的文件<br>page2.js    // 页面 2，任意命名</p>
+</blockquote>
+<p>global.css   // 约定的全局样式文件，自动引入，也可以用 global.less<br>global.js    // 可以在这里加入 polyfill<br>app.js   // 运行时配置文件 </p>
+</blockquote>
+<p>.umirc.js   // umi 配置，同 config/config.js，二选一<br>.env    // 环境变量<br>package.json</p>
+</blockquote>
+<p>约定式路由： umi会根据pages下的文件自动生成路由配置。umi里约定，带$前缀的目录或文件为动态路由；带$后缀，则为可选动态路由。约定目录下有 _layout.js时会生成嵌套路由，以 _layout.js为该目录的 layout。<br>如果你倾向于使用配置式的路由，可以配置.umirc.(ts|js) 或者config/config.(ts|js) 配置文件中的routes属性，此配置项存在时则不会对src/pages 目录做约定式的解析。src下的目录可为：</p>
+<blockquote>
+<p>src  // 应用的所有代码</p>
+<blockquote>
+<p>actions     // 处理异步请求<br>assets      // 静态资源<br>components  // 公用组件<br>pages       // 业务逻辑页面<br>reducers    // reducer 状态处理<br>util        // 公用方法<br>index.html  // 项目模板<br>index.js    // 项目入口</p>
+</blockquote>
+</blockquote>
+<h2 id="dva"><a href="#dva" class="headerlink" title="dva"></a>dva</h2><p>dva是一个基于<a href="https://github.com/reduxjs/redux" target="_blank" rel="noopener">redux</a>和<a href="https://github.com/redux-saga/redux-saga" target="_blank" rel="noopener">redux-saga</a>的数据流方案，然后为了简化开发体验，dva还额外内置了<a href="https://github.com/ReactTraining/react-router" target="_blank" rel="noopener">react-router</a>和<a href="https://github.com/github/fetch" target="_blank" rel="noopener">fetch</a>，所以也可以理解为一个轻量级的应用框架。</p>
+<h4 id="命名由来"><a href="#命名由来" class="headerlink" title="命名由来"></a>命名由来</h4><blockquote>
+<p>D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。</p>
+</blockquote>
+<!-- > <p align="right">---------来自[守望先锋](https://ow.blizzard.cn/heroes/overwatch-dva)</p> -->
+
+<p><img src="../images/2019-12-22/dva.jpg" alt="dva"></p>
+<p>由dva-cli搭建的项目目录结构如下</p>
+<blockquote>
+<p>src</p>
+<blockquote>
+<p>assets   // 静态资源<br>components   // UI Component<br>models   // dva通过model的概念把一个领域的模型管理起来，包含同步更新state的reducers，处理异步逻辑的effects，订阅数据源的subscriptions 。<br>routes   // router.js中路由下的component</p>
+<blockquote>
+<p>IndexPage.css<br>IndexPage.js</p>
+</blockquote>
+<p>services   // 网络请求<br>utils    // 公用方法</p>
+<blockquote>
+<p>request.js    // fetch</p>
+</blockquote>
+<p>index.js   // init dva<br>router.js    // 定义路由</p>
+</blockquote>
+</blockquote>
+<h2 id="umi-dva"><a href="#umi-dva" class="headerlink" title="umi+dva"></a>umi+dva</h2><p>在umi的官网，推荐umi和dva一起使用</p>
+<ul>
+<li>umi可以简单地理解为roadhog+路由，思路类似next.js/nuxt.js，辅以一套插件机制，目的是通过框架的方式简化React开发</li>
+<li>dva目前是纯粹的数据流，和umi以及roadhog之间并没有相互的依赖关系，可以分开使用也可以一起使用，个人觉得<a href="https://github.com/sorrycc/blog/issues/66" target="_blank" rel="noopener">umi+dva是比较搭的</a><br>根据上面的介绍，dva项目之前通常都是扁平的组织方式，而用了umi后，可以按页面维度进行组织。<blockquote>
+<p>src</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>g.js</p>
+</blockquote>
+<p>pages</p>
+<blockquote>
+<p>a</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>a.js<br>b.js<br>ss</p>
+<blockquote>
+<p>s.js</p>
+</blockquote>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+<p>c</p>
+<blockquote>
+<p>model.js<br>d</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>d.js</p>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<p>如上目录：</p>
+<ul>
+<li>global model 为 src/models/g.js</li>
+<li>/a 的 page model 为 src/pages/a/models/{a,b,ss/s}.js</li>
+<li>/c 的 page model 为 src/pages/c/model.js</li>
+<li>/c/d 的 page model 为 src/pages/c/model.js, src/pages/c/d/models/d.js</li>
+</ul>
+<p>好处是加结构更加清晰了，减少耦合，一删全删，方便 copy 和共享。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Git内部原理揭秘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
