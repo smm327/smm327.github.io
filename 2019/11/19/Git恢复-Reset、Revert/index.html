@@ -18,10 +18,10 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjAwNDQyNjAz">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjEyMjIxMDMz">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjA1ODE2MTg4">
-<meta property="og:image" content="http://yoursite.com/2019/11/19/images/gitlab-revert.png?raw=true">
+<meta property="og:image" content="http://yoursite.com/images/gitlab-revert.png?raw=true">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/12/162b9c76701f9524?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 <meta property="article:published_time" content="2019-11-19T10:40:15.000Z">
-<meta property="article:modified_time" content="2019-12-21T10:50:12.933Z">
+<meta property="article:modified_time" content="2020-01-01T15:39:17.729Z">
 <meta property="article:author" content="孙苗苗">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjAwNDQyNjAz">
@@ -189,7 +189,7 @@
 <li>使用“git push -f”提交更改</li>
 </ol>
 <h3 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a><a href="#git-revert" title="git revert"></a>git revert</h3><p><strong>原理：</strong> git revert是用于“反做”某个版本，以达到撤销该版本的目的。比如，我们commit了三个版本（版本一、版本二、 版本三），突然发现版本二不行（如：有bug），想要撤销版本二，但又不想影响撤销版本三的提交，就可以用 git revert 命令来反做版本二，生成新的版本四，这个版本四里会保留版本三的东西，但撤销了版本二的东西。如下图所示：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjA1ODE2MTg4" alt="Revert"><br><strong>适用场景：</strong> 如果我们想撤销之前的某一版本，但是又想保留该目标版本后面的版本，记录下这整个版本变动流程，就可以用这种方法。我们的项目经常遇到，当一个分支合并后又因为某些原因不上线，需要从master、release或者integration分支上revert掉。在这里主要说明这个问题，因为之前项目中遇到了此类问题。</p>
-<h5 id="操作-1"><a href="#操作-1" class="headerlink" title="操作"></a><a href="#操作-1" title="操作"></a>操作</h5><p>· GitLab操作<br>如下图，merge成功后就会有revert按钮，直接点击就OK啦<br><img src="../images/gitlab-revert.png?raw=true" alt="GitLab Revert"></p>
+<h5 id="操作-1"><a href="#操作-1" class="headerlink" title="操作"></a><a href="#操作-1" title="操作"></a>操作</h5><p>· GitLab操作<br>如下图，merge成功后就会有revert按钮，直接点击就OK啦<br><img src="/images/gitlab-revert.png?raw=true" alt="GitLab Revert"></p>
 <p>· Revert commit</p>
 <ol>
 <li>查看版本号</li>
@@ -354,7 +354,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 孙苗苗
+    		&copy; 2020 孙苗苗
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
