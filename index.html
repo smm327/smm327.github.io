@@ -152,6 +152,156 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-VirtualDOM算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/22/VirtualDOM%E7%AE%97%E6%B3%95/">Virtual DOM算法</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/22/VirtualDOM%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2020-03-22T09:35:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文用 300~400 行代码实现一个基本的 Virtual DOM 算法。</p>
+<h2 id="Virtual-DOM-算法"><a href="#Virtual-DOM-算法" class="headerlink" title="Virtual DOM 算法"></a>Virtual DOM 算法</h2><p>DOM 是很慢的。如下，一个简单的 div 元素的属性有以下这么多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let div &#x3D; document.createElement(&#39;div&#39;)</span><br><span class="line">let str;</span><br><span class="line">for(let key in div) &#123;</span><br><span class="line">    str &#x3D; str + key + &#39; &#39;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align title lang translate dir hidden accessKey draggable spellcheck autocapitalize contentEditable isContentEditable inputMode offsetParent offsetTop offsetLeft offsetWidth offsetHeight style innerText outerText oncopy oncut onpaste onabort onblur oncancel oncanplay oncanplaythrough onchange onclick onclose oncontextmenu oncuechange ondblclick ondrag ondragend ondragenter ondragleave ondragover ondragstart ondrop ondurationchange onemptied onended onerror onfocus onformdata oninput oninvalid onkeydown onkeypress onkeyup onload onloadeddata onloadedmetadata onloadstart onmousedown onmouseenter onmouseleave onmousemove onmouseout onmouseover onmouseup onmousewheel onpause onplay onplaying onprogress onratechange onreset onresize onscroll onseeked onseeking onselect onstalled onsubmit onsuspend ontimeupdate ontoggle onvolumechange onwaiting onwheel onauxclick ongotpointercapture onlostpointercapture onpointerdown onpointermove onpointerup onpointercancel onpointerover onpointerout onpointerenter onpointerleave onselectstart onselectionchange onanimationend onanimationiteration onanimationstart ontransitionend dataset nonce autofocus tabIndex click attachInternals focus blur enterKeyHint onpointerrawupdate namespaceURI prefix localName tagName id className classList slot attributes shadowRoot part assignedSlot innerHTML outerHTML scrollTop scrollLeft scrollWidth scrollHeight clientTop clientLeft clientWidth clientHeight attributeStyleMap onbeforecopy onbeforecut onbeforepaste onsearch elementTiming previousElementSibling nextElementSibling children firstElementChild lastElementChild childElementCount onfullscreenchange onfullscreenerror onwebkitfullscreenchange onwebkitfullscreenerror hasAttributes getAttributeNames getAttribute getAttributeNS setAttribute setAttributeNS removeAttribute removeAttributeNS toggleAttribute hasAttribute hasAttributeNS getAttributeNode getAttributeNodeNS setAttributeNode setAttributeNodeNS removeAttributeNode attachShadow closest matches webkitMatchesSelector getElementsByTagName getElementsByTagNameNS getElementsByClassName insertAdjacentElement insertAdjacentText setPointerCapture releasePointerCapture hasPointerCapture insertAdjacentHTML requestPointerLock getClientRects getBoundingClientRect scrollIntoView scroll scrollTo scrollBy scrollIntoViewIfNeeded animate computedStyleMap before after replaceWith remove prepend append querySelector querySelectorAll requestFullscreen webkitRequestFullScreen webkitRequestFullscreen ELEMENT_NODE ATTRIBUTE_NODE TEXT_NODE CDATA_SECTION_NODE ENTITY_REFERENCE_NODE ENTITY_NODE PROCESSING_INSTRUCTION_NODE COMMENT_NODE DOCUMENT_NODE DOCUMENT_TYPE_NODE DOCUMENT_FRAGMENT_NODE NOTATION_NODE DOCUMENT_POSITION_DISCONNECTED DOCUMENT_POSITION_PRECEDING DOCUMENT_POSITION_FOLLOWING DOCUMENT_POSITION_CONTAINS DOCUMENT_POSITION_CONTAINED_BY DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC nodeType nodeName baseURI isConnected ownerDocument parentNode parentElement childNodes firstChild lastChild previousSibling nextSibling nodeValue textContent hasChildNodes getRootNode normalize cloneNode isEqualNode isSameNode compareDocumentPosition contains lookupPrefix lookupNamespaceURI isDefaultNamespace insertBefore appendChild replaceChild removeChild addEventListener removeEventListener dispatchEvent &quot;</span><br></pre></td></tr></table></figure>
+
+<p>这仅仅是第一层。真正的 DOM 元素非常庞大，这是因为标准就是这么设计的。而且操作它们的时候你要小心翼翼，轻微的触碰可能就会导致页面重排，这可是杀死性能的罪魁祸首。<br>相对于 DOM 对象，原生的 JavaScript 对象处理起来更快，而且更简单。DOM 树上的结构、属性信息我们都可以很容易地用 JavaScript 对象表示出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let element &#x3D; &#123;</span><br><span class="line">  tagName: &#39;ul&#39;, &#x2F;&#x2F; 节点标签名</span><br><span class="line">  props: &#123; &#x2F;&#x2F; DOM的属性，用一个对象存储键值对</span><br><span class="line">    id: &#39;list&#39;</span><br><span class="line">  &#125;,</span><br><span class="line">  children: [ &#x2F;&#x2F; 该节点的子节点</span><br><span class="line">    &#123;tagName: &#39;li&#39;, props: &#123;class: &#39;item&#39;&#125;, children: [&quot;Item 1&quot;]&#125;,</span><br><span class="line">    &#123;tagName: &#39;li&#39;, props: &#123;class: &#39;item&#39;&#125;, children: [&quot;Item 2&quot;]&#125;,</span><br><span class="line">    &#123;tagName: &#39;li&#39;, props: &#123;class: &#39;item&#39;&#125;, children: [&quot;Item 3&quot;]&#125;,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面对应的 HTML 是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id&#x3D;&#39;list&#39;&gt;</span><br><span class="line">  &lt;li class&#x3D;&#39;item&#39;&gt;Item 1&lt;&#x2F;li&gt;</span><br><span class="line">  &lt;li class&#x3D;&#39;item&#39;&gt;Item 2&lt;&#x2F;li&gt;</span><br><span class="line">  &lt;li class&#x3D;&#39;item&#39;&gt;Item 3&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p>既然 DOM 树的信息可以用 JavaScript 对象来表示，反过来，就可以根据这个用 JavaScript 对象表示的树结构来构建一棵真正的 DOM 树。</p>
+<p>这样状态变更-&gt;重新渲染整个视图的方式就可以变为：用 JavaScript 对象表示 DOM 信息和结构，当状态变更的时候，重新渲染这个 JavaScript 的对象结构。当然这样做其实没什么卵用，因为真正的页面其实没有改变。</p>
+<p>但是可以用新渲染的对象树去和旧的树进行对比，记录这两棵树差异。记录下来的不同就是我们需要对页面真正的 DOM 操作，然后把它们应用在真正的 DOM 树上，页面就变更了。这样就可以做到：视图的结构确实是整个全新渲染了，但是最后操作 DOM 的时候确实只变更有不同的地方。</p>
+<p>这就是所谓的 Virtual DOM 算法。包括几个步骤：</p>
+<ol>
+<li>用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文档当中</li>
+<li>当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较，记录两棵树差异</li>
+<li>把 2 所记录的差异应用到步骤 1 所构建的真正的 DOM 树上，视图就更新了</li>
+</ol>
+<p>Virtual DOM 本质上就是在 JS 和 DOM 之间做了一个缓存。可以类比 CPU 和硬盘，既然硬盘这么慢，我们就在它们之间加个缓存：既然 DOM 这么慢，我们就在它们 JS 和 DOM 之间加个缓存。CPU（JS）只操作内存（Virtual DOM），最后的时候再把变更写入硬盘（DOM）。</p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><h3 id="步骤一：用-JS-对象模拟-DOM-树"><a href="#步骤一：用-JS-对象模拟-DOM-树" class="headerlink" title="步骤一：用 JS 对象模拟 DOM 树"></a>步骤一：用 JS 对象模拟 DOM 树</h3><p>用 JavaScript 来表示一个 DOM 节点是很简单的事情，你只需要记录它的节点类型、属性，还有子节点：<br>element.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Element (tagName, props, children) &#123;</span><br><span class="line">  this.tagName &#x3D; tagName</span><br><span class="line">  this.props &#x3D; props</span><br><span class="line">  this.children &#x3D; children</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function (tagName, props, children) &#123;</span><br><span class="line">  return new Element(tagName, props, children)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上面的 DOM 结构就可以这么表示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let el &#x3D; require(&#39;.&#x2F;element&#39;)</span><br><span class="line"></span><br><span class="line">let ul &#x3D; el(&#39;ul&#39;, &#123;id: &#39;list&#39;&#125;, [</span><br><span class="line">  el(&#39;li&#39;, &#123;class: &#39;item&#39;&#125;, [&#39;Item 1&#39;]),</span><br><span class="line">  el(&#39;li&#39;, &#123;class: &#39;item&#39;&#125;, [&#39;Item 2&#39;]),</span><br><span class="line">  el(&#39;li&#39;, &#123;class: &#39;item&#39;&#125;, [&#39;Item 3&#39;])</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们根据这个 ul 构建真正的&lt;ul&gt;：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Element.prototype.render &#x3D; function () &#123;</span><br><span class="line">  let el &#x3D; document.createElement(this.tagName) &#x2F;&#x2F; 根据tagName构建</span><br><span class="line">  let props &#x3D; this.props</span><br><span class="line"></span><br><span class="line">  for (let propName in props) &#123; &#x2F;&#x2F; 设置节点的DOM属性</span><br><span class="line">    let propValue &#x3D; props[propName]</span><br><span class="line">    el.setAttribute(propName, propValue)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  let children &#x3D; this.children || []</span><br><span class="line"></span><br><span class="line">  children.forEach((child) &#x3D;&gt; &#123;</span><br><span class="line">    let childEl &#x3D; (child instanceof Element)</span><br><span class="line">      ? child.render() &#x2F;&#x2F; 如果子节点也是虚拟DOM，递归构建DOM节点</span><br><span class="line">      : document.createTextNode(child) &#x2F;&#x2F; 如果字符串，只构建文本节点</span><br><span class="line">    el.appendChild(childEl)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  return el</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>render 方法会根据 tagName 构建一个真正的 DOM 节点，然后设置这个节点的属性，最后递归地把自己的子节点也构建起来。所以只需要：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var ulRoot &#x3D; ul.render()</span><br><span class="line">document.body.appendChild(ulRoot)</span><br></pre></td></tr></table></figure>
+
+<p>上面的 ulRoot 是真正的 DOM 节点，把它塞入文档中，这样 body 里面就有了真正的&lt;ul&gt;的 DOM 结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id&#x3D;&#39;list&#39;&gt;</span><br><span class="line">  &lt;li class&#x3D;&#39;item&#39;&gt;Item 1&lt;&#x2F;li&gt;</span><br><span class="line">  &lt;li class&#x3D;&#39;item&#39;&gt;Item 2&lt;&#x2F;li&gt;</span><br><span class="line">  &lt;li class&#x3D;&#39;item&#39;&gt;Item 3&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码可见 <a href="https://github.com/livoras/simple-virtual-dom/blob/master/lib/element.js" target="_blank" rel="noopener">element.js</a>。</p>
+<h3 id="步骤二：比较两棵虚拟-DOM-树的差异"><a href="#步骤二：比较两棵虚拟-DOM-树的差异" class="headerlink" title="步骤二：比较两棵虚拟 DOM 树的差异"></a>步骤二：比较两棵虚拟 DOM 树的差异</h3><p>，比较两棵 DOM 树的差异是 Virtual DOM 算法最核心的部分，这也是所谓的 Virtual DOM 的 diff 算法。两个树的完全的 diff 算法是一个时间复杂度为 O(n^3) 的问题。但是在前端当中，你很少会跨越层级地移动 DOM 元素。所以 Virtual DOM 只会对同一个层级的元素进行对比:<br><img src="/images/2020-03-22/compare-in-level.png" alt="compare-in-level"></p>
+<h5 id="1-深度优先遍历，记录差异"><a href="#1-深度优先遍历，记录差异" class="headerlink" title="1.深度优先遍历，记录差异"></a>1.深度优先遍历，记录差异</h5><p>在实际的代码中，会对新旧两棵树进行一个深度优先的遍历，这样每个节点都会有一个唯一的标记：<br><img src="/images/2020-03-22/dfs-walk.png" alt="dfs-walk"><br>在深度优先遍历的时候，每遍历到一个节点就把该节点和新的的树进行对比。如果有差异的话就记录到一个对象里面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; diff 函数，对比两棵树</span><br><span class="line">function diff (oldTree, newTree) &#123;</span><br><span class="line">  var index &#x3D; 0 &#x2F;&#x2F; 当前节点的标志</span><br><span class="line">  var patches &#x3D; &#123;&#125; &#x2F;&#x2F; 用来记录每个节点差异的对象</span><br><span class="line">  dfsWalk(oldTree, newTree, index, patches)</span><br><span class="line">  return patches</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 对两棵树进行深度优先遍历</span><br><span class="line">function dfsWalk (oldNode, newNode, index, patches) &#123;</span><br><span class="line">  &#x2F;&#x2F; 对比oldNode和newNode的不同，记录下来</span><br><span class="line">  patches[index] &#x3D; [...]</span><br><span class="line"></span><br><span class="line">  diffChildren(oldNode.children, newNode.children, index, patches)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 遍历子节点</span><br><span class="line">function diffChildren (oldChildren, newChildren, index, patches) &#123;</span><br><span class="line">  var leftNode &#x3D; null</span><br><span class="line">  var currentNodeIndex &#x3D; index</span><br><span class="line">  oldChildren.forEach(function (child, i) &#123;</span><br><span class="line">    var newChild &#x3D; newChildren[i]</span><br><span class="line">    currentNodeIndex &#x3D; (leftNode &amp;&amp; leftNode.count) &#x2F;&#x2F; 计算节点的标识</span><br><span class="line">      ? currentNodeIndex + leftNode.count + 1</span><br><span class="line">      : currentNodeIndex + 1</span><br><span class="line">    dfsWalk(child, newChild, currentNodeIndex, patches) &#x2F;&#x2F; 深度遍历子节点</span><br><span class="line">    leftNode &#x3D; child</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例如，上面的 div 和新的 div 有差异，当前的标记是 0，那么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patches[0] &#x3D; [&#123;difference&#125;, &#123;difference&#125;, ...] &#x2F;&#x2F; 用数组存储新旧节点的不同</span><br></pre></td></tr></table></figure>
+
+<p>同理 p 是 patches[1]，ul 是 patches[3]，类推。</p>
+<h5 id="2-差异类型"><a href="#2-差异类型" class="headerlink" title="2.差异类型"></a>2.差异类型</h5><p>节点的差异指的是什么呢？对 DOM 操作可能会有：</p>
+<ol>
+<li>替换掉原来的节点，例如把上面的 div 换成了 section</li>
+<li>移动、删除、新增子节点，例如上面 div 的子节点，把 p 和 ul 顺序互换</li>
+<li>修改了节点的属性</li>
+<li>对于文本节点，文本内容可能会改变。例如修改上面的文本节点 2 内容为 Virtual DOM 2。</li>
+</ol>
+<p>所以我们定义了几种差异类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const REPLACE &#x3D; 0</span><br><span class="line">const REORDER &#x3D; 1</span><br><span class="line">const PROPS &#x3D; 2</span><br><span class="line">const TEXT &#x3D; 3</span><br></pre></td></tr></table></figure>
+
+<p>对于节点替换，如 div 换成 section：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">patches[0] &#x3D; [&#123;</span><br><span class="line">  type: REPALCE,</span><br><span class="line">  node: newNode &#x2F;&#x2F; el(&#39;section&#39;, props, children)</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>对于添加属性，如 div 新增了属性 id 为 container：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">patches[0] &#x3D; [&#123;</span><br><span class="line">  type: REPALCE,</span><br><span class="line">  node: newNode &#x2F;&#x2F; el(&#39;section&#39;, props, children)</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  type: PROPS,</span><br><span class="line">  props: &#123;</span><br><span class="line">    id: &quot;container&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>对于文本节点，如上面的文本节点 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">patches[2] &#x3D; [&#123;</span><br><span class="line">  type: TEXT,</span><br><span class="line">  content: &quot;Virtual DOM2&quot;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>对于节点重新排序，如果按照同层级进行顺序对比的话，它们都会被替换掉，这样 DOM 开销就非常大。而实际上不需要替换节点，而只需要经过节点移动就可以达到，我们只需知道怎么进行移动。<br>如何移动，这牵涉到两个列表的对比算法，将在下面的章节介绍。</p>
+<h5 id="3-列表对比算法"><a href="#3-列表对比算法" class="headerlink" title="3.列表对比算法"></a>3.列表对比算法</h5><p>假设现在可以英文字母唯一地标识每一个子节点：<br>旧的节点顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a b c d e f g h i</span><br></pre></td></tr></table></figure>
+
+<p>现在对节点进行了删除、插入、移动的操作。新增 j 节点，删除 e 节点，移动 h 节点：<br>新的节点顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a b c h d f g i j</span><br></pre></td></tr></table></figure>
+
+<p>知道了新旧的顺序，求最小的插入、删除操作（移动可以看成是删除和插入操作的结合）。这个问题抽象出来其实是字符串的最小编辑距离问题，最常见的解决算法是编辑距离算法（Levenshtein Distance），通过动态规划求解，时间复杂度为 O(M * N)。但是我们并不需要真的达到最小的操作，我们只需要优化一些比较常见的移动情况，牺牲一定 DOM 操作，让算法时间复杂度达到线性的（O(max(M, N))。具体算法细节比较多，感兴趣的直接看<a href="https://github.com/livoras/list-diff/blob/master/lib/diff.js" target="_blank" rel="noopener">代码</a>吧。<br>我们能够获取到某个父节点的子节点的操作，就可以记录下来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">patches[0] &#x3D; [&#123;</span><br><span class="line">  type: REORDER,</span><br><span class="line">  moves: [&#123;remove or insert&#125;, &#123;remove or insert&#125;, ...]</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>tagName 是可重复的，不能用这个来进行对比。所以需要给子节点加上唯一标识 key，列表对比的时候，使用 key 进行对比，这样才能复用老的 DOM 树上的节点。<br>这样，我们就可以通过深度优先遍历两棵树，每层的节点进行对比，记录下每个节点的差异了。完整 diff 算法代码可见 <a href="https://github.com/livoras/simple-virtual-dom/blob/master/lib/diff.js" target="_blank" rel="noopener">diff.js</a>。</p>
+<h3 id="步骤三：把差异应用到真正的-DOM-树上"><a href="#步骤三：把差异应用到真正的-DOM-树上" class="headerlink" title="步骤三：把差异应用到真正的 DOM 树上"></a>步骤三：把差异应用到真正的 DOM 树上</h3><p>因为步骤一所构建的 JavaScript 对象树和 render 出来真正的 DOM 树的信息、结构是一样的。所以我们可以对那棵 DOM 树也进行深度优先的遍历，遍历的时候从步骤二生成的 patches 对象中找出当前遍历的节点差异，然后进行 DOM 操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function patch (node, patches) &#123;</span><br><span class="line">  var walker &#x3D; &#123;index: 0&#125;</span><br><span class="line">  dfsWalk(node, walker, patches)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function dfsWalk (node, walker, patches) &#123;</span><br><span class="line">  var currentPatches &#x3D; patches[walker.index] &#x2F;&#x2F; 从patches拿出当前节点的差异</span><br><span class="line"></span><br><span class="line">  var len &#x3D; node.childNodes</span><br><span class="line">    ? node.childNodes.length</span><br><span class="line">    : 0</span><br><span class="line">  for (var i &#x3D; 0; i &lt; len; i++) &#123; &#x2F;&#x2F; 深度遍历子节点</span><br><span class="line">    var child &#x3D; node.childNodes[i]</span><br><span class="line">    walker.index++</span><br><span class="line">    dfsWalk(child, walker, patches)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (currentPatches) &#123;</span><br><span class="line">    applyPatches(node, currentPatches) &#x2F;&#x2F; 对当前节点进行DOM操作</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>applyPatches，根据不同类型的差异对当前节点进行 DOM 操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function applyPatches (node, currentPatches) &#123;</span><br><span class="line">  currentPatches.forEach(function (currentPatch) &#123;</span><br><span class="line">    switch (currentPatch.type) &#123;</span><br><span class="line">      case REPLACE:</span><br><span class="line">        node.parentNode.replaceChild(currentPatch.node.render(), node)</span><br><span class="line">        break</span><br><span class="line">      case REORDER:</span><br><span class="line">        reorderChildren(node, currentPatch.moves)</span><br><span class="line">        break</span><br><span class="line">      case PROPS:</span><br><span class="line">        setProps(node, currentPatch.props)</span><br><span class="line">        break</span><br><span class="line">      case TEXT:</span><br><span class="line">        node.textContent &#x3D; currentPatch.content</span><br><span class="line">        break</span><br><span class="line">      default:</span><br><span class="line">        throw new Error(&#39;Unknown patch type &#39; + currentPatch.type)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码可见<a href="https://github.com/livoras/simple-virtual-dom/blob/master/lib/patch.js" target="_blank" rel="noopener">patch.js</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Virtual DOM 算法主要是实现上面步骤的三个函数：element，diff，patch。然后就可以实际的进行使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 1. 构建虚拟DOM</span><br><span class="line">var tree &#x3D; el(&#39;div&#39;, &#123;&#39;id&#39;: &#39;container&#39;&#125;, [</span><br><span class="line">    el(&#39;h1&#39;, &#123;style: &#39;color: blue&#39;&#125;, [&#39;simple virtal dom&#39;]),</span><br><span class="line">    el(&#39;p&#39;, [&#39;Hello, virtual-dom&#39;]),</span><br><span class="line">    el(&#39;ul&#39;, [el(&#39;li&#39;)])</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2. 通过虚拟DOM构建真正的DOM</span><br><span class="line">var root &#x3D; tree.render()</span><br><span class="line">document.body.appendChild(root)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 3. 生成新的虚拟DOM</span><br><span class="line">var newTree &#x3D; el(&#39;div&#39;, &#123;&#39;id&#39;: &#39;container&#39;&#125;, [</span><br><span class="line">    el(&#39;h1&#39;, &#123;style: &#39;color: red&#39;&#125;, [&#39;simple virtal dom&#39;]),</span><br><span class="line">    el(&#39;p&#39;, [&#39;Hello, virtual-dom&#39;]),</span><br><span class="line">    el(&#39;ul&#39;, [el(&#39;li&#39;), el(&#39;li&#39;)])</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 4. 比较两棵虚拟DOM树的不同</span><br><span class="line">var patches &#x3D; diff(tree, newTree)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 5. 在真正的DOM元素上应用变更</span><br><span class="line">patch(root, patches)</span><br></pre></td></tr></table></figure>
+
+<p>这是非常粗糙的实践，实际中还需要处理事件监听等；生成虚拟 DOM 的时候也可以加入 JSX 语法。这些事情都做了的话，就可以构造一个简单的 ReactJS 了。</p>
+<p><a href="https://github.com/livoras/blog/issues/13" target="_blank" rel="noopener">原文链接</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/22/VirtualDOM%E7%AE%97%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ES6字符串和正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
