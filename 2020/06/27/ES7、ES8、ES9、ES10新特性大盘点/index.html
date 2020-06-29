@@ -6,15 +6,44 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | 孙苗苗的博客</title>
+  <title>ES7、ES8、ES9、ES10新特性大盘点 | 孙苗苗的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="孙苗苗的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="前言从 ECMAScript 2016（ES7）开始，版本发布变得更加频繁，每年发布一个新版本。首先先看一下新特性的总览，如下图所示： ES7 新特性1.Array.prototype.includes()方法在 ES6 中我们有 String.prototype.includes()可以查询给定字符串是否包含一个字符，而在 ES7 中，我们在数组中也可以用 Array.prototype.inc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES7、ES8、ES9、ES10新特性大盘点">
+<meta property="og:url" content="http://yoursite.com/2020/06/27/ES7%E3%80%81ES8%E3%80%81ES9%E3%80%81ES10%E6%96%B0%E7%89%B9%E6%80%A7%E5%A4%A7%E7%9B%98%E7%82%B9/index.html">
 <meta property="og:site_name" content="孙苗苗的博客">
+<meta property="og:description" content="前言从 ECMAScript 2016（ES7）开始，版本发布变得更加频繁，每年发布一个新版本。首先先看一下新特性的总览，如下图所示： ES7 新特性1.Array.prototype.includes()方法在 ES6 中我们有 String.prototype.includes()可以查询给定字符串是否包含一个字符，而在 ES7 中，我们在数组中也可以用 Array.prototype.inc">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/all.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/includes.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/**.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/async.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/values.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/padding.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/obj.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/assign.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/getOwnPropertyDescriptor.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/getOwnPropertyDescriptors.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/for-of.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/for-await-of.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/spread.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/finally.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/regular.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/flat.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/flatMap.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/fromEntries.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/trimStart.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/matchAll.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/tryCatch.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/bigInt.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/description.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2020-06-27/toString.jpg">
+<meta property="article:published_time" content="2020-06-27T12:19:45.000Z">
+<meta property="article:modified_time" content="2020-06-29T12:53:22.395Z">
 <meta property="article:author" content="孙苗苗">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/2020-06-27/all.png">
   
     <link rel="alternative" href="/atom.xml" title="孙苗苗的博客" type="application/atom+xml">
   
@@ -150,184 +179,328 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-ES7、ES8、ES9、ES10新特性大盘点" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      ES7、ES8、ES9、ES10新特性大盘点
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/27/ES7%E3%80%81ES8%E3%80%81ES9%E3%80%81ES10%E6%96%B0%E7%89%B9%E6%80%A7%E5%A4%A7%E7%9B%98%E7%82%B9/" class="archive-article-date">
+
+        
+        <a href="/2020/06/27/ES7%E3%80%81ES8%E3%80%81ES9%E3%80%81ES10%E6%96%B0%E7%89%B9%E6%80%A7%E5%A4%A7%E7%9B%98%E7%82%B9/" class="archive-article-date">
   	<time datetime="2020-06-27T12:19:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-27</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/27/ES7%E3%80%81ES8%E3%80%81ES9%E3%80%81ES10%E6%96%B0%E7%89%B9%E6%80%A7%E5%A4%A7%E7%9B%98%E7%82%B9/">ES7、ES8、ES9、ES10新特性大盘点</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>从 ECMAScript 2016（ES7）开始，版本发布变得更加频繁，每年发布一个新版本。首先先看一下新特性的总览，如下图所示：<br><img src="/images/2020-06-27/all.png" alt="All"></p>
+<h2 id="ES7-新特性"><a href="#ES7-新特性" class="headerlink" title="ES7 新特性"></a>ES7 新特性</h2><h3 id="1-Array-prototype-includes-方法"><a href="#1-Array-prototype-includes-方法" class="headerlink" title="1.Array.prototype.includes()方法"></a>1.Array.prototype.includes()方法</h3><p>在 ES6 中我们有 String.prototype.includes()可以查询给定字符串是否包含一个字符，而在 ES7 中，我们在数组中也可以用 Array.prototype.includes 方法来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回 false。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const arr &#x3D; [1, 3, 5, 2, &#39;8&#39;, NaN, -0]</span><br><span class="line">arr.includes(1) &#x2F;&#x2F; true</span><br><span class="line">arr.includes(1, 2) &#x2F;&#x2F; false 该方法的第二个参数表示搜索的起始位置，默认为0</span><br><span class="line">arr.includes(&#39;1&#39;) &#x2F;&#x2F; false</span><br><span class="line">arr.includes(NaN) &#x2F;&#x2F; true</span><br><span class="line">arr.includes(+0) &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p>在 ES7 之前想判断数组中是否包含一个元素，有如下两种方法,但都不如 includes 来得直观：</p>
+<ul>
+<li>indexOf()<br>indexOf()方法返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if (arr.indexOf(el) !&#x3D;&#x3D; -1) &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>不过这种方法有两个缺点，一是不够语义化，要先找到参数值的第一个出现位置，所以要去比较是否不等于-1，表达起来不够直观。二是，它内部使用严格相等运算符（===）进行判断，这会导致对 NaN 的误判。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NaN].indexOf(NaN)&#x2F;&#x2F; -1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>find() 和 findIndex()<br>数组实例的 find 方法，用于找出第一个符合条件的数组成员。另外，这两个方法都可以发现 NaN，弥补了数组的 indexOf 方法的不足。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[1, 4, -5, 10].find((n) &#x3D;&gt; n &lt; 0) &#x2F;&#x2F; -5</span><br><span class="line">[1, 5, 10, 15].findIndex(function(value) &#123;</span><br><span class="line">  return value &gt; 9;</span><br><span class="line">&#125;) &#x2F;&#x2F; 2</span><br><span class="line">[NaN].findIndex(y &#x3D;&gt; Object.is(NaN, y)) &#x2F;&#x2F; 0</span><br></pre></td></tr></table></figure>
+
+<p>Array.prototype.includes()的支持情况：<br><img src="/images/2020-06-27/includes.jpg" alt="includes"></p>
+<h3 id="2-求幂运算符"><a href="#2-求幂运算符" class="headerlink" title="2.求幂运算符**"></a>2.求幂运算符**</h3><p>在 ES7 中引入了指数运算符，具有与 Math.pow()等效的计算结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(2**10);&#x2F;&#x2F; 输出1024</span><br><span class="line">console.log(Math.pow(2, 10)) &#x2F;&#x2F; 输出1024</span><br></pre></td></tr></table></figure>
+
+<p>求幂运算符的支持情况：<br><img src="/images/2020-06-27/**.jpg" alt="**"></p>
+<h2 id="ES8-新特性"><a href="#ES8-新特性" class="headerlink" title="ES8 新特性"></a>ES8 新特性</h2><h3 id="1-Async-Await"><a href="#1-Async-Await" class="headerlink" title="1.Async/Await"></a>1.Async/Await</h3><p>我们都知道使用 Promise 能很好地解决回调地狱的问题，但如果处理流程比较复杂的话，那么整段代码将充斥着 then，语义化不明显，代码不能很好地表示执行流程，那有没有比 Promise 更优雅的异步方式呢？</p>
+<p>假如有这样一个使用场景：需要先请求 a 链接，等返回信息之后，再请求 b 链接的另外一个资源。下面代码展示的是使用 fetch 来实现这样的需求，fetch 被定义在 window 对象中，它返回的是一个 Promise 对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fetch(&#39;https:&#x2F;&#x2F;xxx1&#x2F;&#39;)</span><br><span class="line">  .then(response &#x3D;&gt; &#123;</span><br><span class="line">    console.log(response)</span><br><span class="line">    return fetch(&#39;https:&#x2F;&#x2F;xxx2&#x2F;&#39;)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(response &#x3D;&gt; &#123;</span><br><span class="line">    console.log(response)</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(error &#x3D;&gt; &#123;</span><br><span class="line">    console.log(error)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>虽然上述代码可以实现这个需求，但语义化不明显，代码不能很好地表示执行流程。基于这个原因，ES8 引入了 async/await，这是 JavaScript 异步编程的一个重大改进，提供了在不阻塞主线程的情况下使用同步代码实现异步访问资源的能力，并且使得代码逻辑更加清晰。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">async function foo () &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    let response1 &#x3D; await fetch(&#39;https:&#x2F;&#x2F;xxx1&#x2F;&#39;)</span><br><span class="line">    console.log(response1)</span><br><span class="line">    let response2 &#x3D; await fetch(&#39;https:&#x2F;&#x2F;xxx2&#x2F;&#39;)</span><br><span class="line">    console.log(response2)</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    console.error(err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<p>通过上面代码，你会发现整个异步处理的逻辑都是使用同步代码的方式来实现的，而且还支持 try catch 来捕获异常，这感觉就在写同步代码，所以是非常符合人的线性思维的。需要强调的是，await 不可以脱离 async 单独使用，await 后面一定是 Promise 对象，如果不是会自动包装成 Promise 对象。</p>
+<!-- 根据 MDN 定义，async 是一个通过异步执行并隐式返回 Promise 作为结果的函数。 -->
+
+<p>Async/Await 的支持情况：<br><img src="/images/2020-06-27/async.jpg" alt="async"></p>
+<h3 id="2-Object-values-，Object-entries"><a href="#2-Object-values-，Object-entries" class="headerlink" title="2.Object.values()，Object.entries()"></a>2.Object.values()，Object.entries()</h3><p>ES5 引入了 Object.keys 方法，返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键名。ES8 引入了跟 Object.keys 配套的 Object.values 和 Object.entries，作为遍历一个对象的补充手段，供 for…of 循环使用。</p>
+<p>Object.values 方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const obj &#x3D; &#123; foo: &#39;bar&#39;, baz: 42 &#125;;</span><br><span class="line">Object.values(obj) &#x2F;&#x2F; [&quot;bar&quot;, 42]</span><br><span class="line">const obj &#x3D; &#123; 100: &#39;a&#39;, 2: &#39;b&#39;, 7: &#39;c&#39; &#125;;</span><br><span class="line">Object.values(obj) &#x2F;&#x2F; [&quot;b&quot;, &quot;c&quot;, &quot;a&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，如果属性名为数值的属性，是按照数值大小，从小到大遍历的，因此返回的顺序是 b、c、a。</p>
+<p>Object.entries()方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值对数组。这个特性我们后面介绍 ES10 的 Object.fromEntries()还会再提到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const obj &#x3D; &#123; foo: &#39;bar&#39;, baz: 42 &#125;;</span><br><span class="line">Object.entries(obj) &#x2F;&#x2F; [ [&quot;foo&quot;, &quot;bar&quot;], [&quot;baz&quot;, 42] ]</span><br><span class="line">const obj &#x3D; &#123; 10: &#39;xxx&#39;, 1: &#39;yyy&#39;, 3: &#39;zzz&#39; &#125;;</span><br><span class="line">Object.entries(obj); &#x2F;&#x2F; [[&#39;1&#39;, &#39;yyy&#39;], [&#39;3&#39;, &#39;zzz&#39;], [&#39;10&#39;: &#39;xxx&#39;]]</span><br></pre></td></tr></table></figure>
+
+<p>Object.values()与 Object.entries()兼容性一致，下面以 Object.values()为例:<br><img src="/images/2020-06-27/values.jpg" alt="values"></p>
+<h3 id="3-String-padding"><a href="#3-String-padding" class="headerlink" title="3.String padding"></a>3.String padding</h3><p>在 ES8 中 String 新增了两个实例函数 String.prototype.padStart 和 String.prototype.padEnd，允许将空字符串或其他字符串添加到原始字符串的开头或结尾。我们先看下使用语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.padStart(targetLength,[padString])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>targetLength(必填):当前字符串需要填充到的目标长度。如果这个数值小于当前字符串的长度，则返回当前字符串本身。</li>
+<li>padString(可选):填充字符串。如果字符串太长，使填充后的字符串长度超过了目标长度，则只保留最左侧的部分，其他部分会被截断，此参数的缺省值为 “ “。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#39;x&#39;.padStart(4, &#39;ab&#39;) &#x2F;&#x2F; &#39;abax&#39;</span><br><span class="line">&#39;x&#39;.padEnd(5, &#39;ab&#39;) &#x2F;&#x2F; &#39;xabab&#39;</span><br></pre></td></tr></table></figure>
+
+<p>有时候我们处理日期、金额的时候经常要格式化，这个特性就派上用场：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#39;12&#39;.padStart(10, &#39;YYYY-MM-DD&#39;) &#x2F;&#x2F; &quot;YYYY-MM-12&quot;</span><br><span class="line">&#39;09-12&#39;.padStart(10, &#39;YYYY-MM-DD&#39;) &#x2F;&#x2F; &quot;YYYY-09-12&quot;</span><br></pre></td></tr></table></figure>
+
+<p>String padding 的支持情况：<br><img src="/images/2020-06-27/padding.jpg" alt="padding"></p>
+<h3 id="4-Object-getOwnPropertyDescriptors"><a href="#4-Object-getOwnPropertyDescriptors" class="headerlink" title="4.Object.getOwnPropertyDescriptors()"></a>4.Object.getOwnPropertyDescriptors()</h3><p>ES5 的 Object.getOwnPropertyDescriptor()方法会返回某个对象属性的描述对象（descriptor）。ES8 引入了 Object.getOwnPropertyDescriptors()方法，返回指定对象所有自身属性（非继承属性）的描述对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const obj &#x3D; &#123;</span><br><span class="line">  name: &#39;smm&#39;,</span><br><span class="line">  get bar () &#123;</span><br><span class="line">    return &#39;abc&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Object.getOwnPropertyDescriptors(obj))</span><br></pre></td></tr></table></figure>
+
+<p>得到如下结果：<br><img src="/images/2020-06-27/obj.png" alt="obj"></p>
+<p>该方法的引入目的，主要是为了解决 Object.assign()无法正确拷贝 get 属性和 set 属性的问题。我们来看个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const source &#x3D; &#123;</span><br><span class="line">  set foo (value) &#123;</span><br><span class="line">    console.log(value)</span><br><span class="line">  &#125;,</span><br><span class="line">  get bar () &#123;</span><br><span class="line">    return &#39;smm&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">const target1 &#x3D; &#123;&#125;</span><br><span class="line">Object.assign(target1, source)</span><br><span class="line">console.log(Object.getOwnPropertyDescriptor(target1, &#39;foo&#39;))</span><br></pre></td></tr></table></figure>
+
+<p>返回如下结果：<br><img src="/images/2020-06-27/assign.png" alt="assign"></p>
+<p>上面代码中，source 对象的 foo 属性的值是一个赋值函数，Object.assign 方法将这个属性拷贝给 target1 对象，结果该属性的值变成了 undefined。这是因为 Object.assign 方法总是拷贝一个属性的值，而不会拷贝它背后的赋值方法或取值方法。<br>这时 Object.getOwnPropertyDescriptors()方法配合 Object.defineProperties()方法，就可以实现正确拷贝。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const source &#x3D; &#123;</span><br><span class="line">  set foo (value) &#123;</span><br><span class="line">    console.log(value)</span><br><span class="line">  &#125;,</span><br><span class="line">  get bar () &#123;</span><br><span class="line">    return &#39;smm&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">const target2 &#x3D; &#123;&#125;</span><br><span class="line">Object.defineProperties(target2, Object.getOwnPropertyDescriptors(source))</span><br><span class="line">console.log(Object.getOwnPropertyDescriptor(target2, &#39;foo&#39;))</span><br></pre></td></tr></table></figure>
+
+<p>返回如下结果：<br><img src="/images/2020-06-27/getOwnPropertyDescriptor.png" alt="getOwnPropertyDescriptor"></p>
+<p>Object.getOwnPropertyDescriptors()的支持情况：<br><img src="/images/2020-06-27/getOwnPropertyDescriptors.jpg" alt="getOwnPropertyDescriptors"></p>
+<h2 id="ES9-新特性"><a href="#ES9-新特性" class="headerlink" title="ES9 新特性"></a>ES9 新特性</h2><h3 id="1-for-await-of"><a href="#1-for-await-of" class="headerlink" title="1.for await of"></a>1.for await of</h3><p>for of 方法能够遍历具有 Symbol.iterator 接口的同步迭代器数据，但是不能遍历异步迭代器。ES9 新增的 for await of 可以用来遍历具有 Symbol.asyncIterator 方法的数据结构，也就是异步迭代器，且会等待前一个成员的状态改变后才会遍历到下一个成员，相当于 async 函数内部的 await。现在我们有三个异步任务，想要实现依次输出结果，该如何实现呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; for of遍历</span><br><span class="line">function Gen (time) &#123;</span><br><span class="line">  return new Promise(function (resolve, reject) &#123;</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">      resolve(time)</span><br><span class="line">    &#125;, time)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">async function test () &#123;</span><br><span class="line">  let arr &#x3D; [Gen(2000), Gen(100), Gen(3000)]</span><br><span class="line">  for (let item of arr) &#123;</span><br><span class="line">    console.log(Date.now(), item.then(console.log))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p>得到如下结果：<br><img src="/images/2020-06-27/for-of.png" alt="for-of"></p>
+<p>上述代码证实了 for of 方法不能遍历异步迭代器，得到的结果并不是我们所期待的，于是 for await of 就粉墨登场啦!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function Gen (time) &#123;</span><br><span class="line">  return new Promise(function (resolve, reject) &#123;</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">      resolve(time)</span><br><span class="line">    &#125;, time)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">async function test () &#123;</span><br><span class="line">  let arr &#x3D; [Gen(2000), Gen(100), Gen(3000)]</span><br><span class="line">  for await (let item of arr) &#123;</span><br><span class="line">    console.log(Date.now(), item)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line">&#x2F;&#x2F; 1575536194608 2000</span><br><span class="line">&#x2F;&#x2F; 1575536194608 100</span><br><span class="line">&#x2F;&#x2F; 1575536195608 3000</span><br></pre></td></tr></table></figure>
+
+<p>使用 for await of 遍历时，会等待前一个 Promise 对象的状态改变后，再遍历到下一个成员。</p>
+<p>异步迭代器的支持情况：<br><img src="/images/2020-06-27/for-await-of.jpg" alt="for-await-of"></p>
+<h3 id="2-Object-Rest-Spread"><a href="#2-Object-Rest-Spread" class="headerlink" title="2.Object Rest Spread"></a>2.Object Rest Spread</h3><p>ES6 中添加的最意思的特性之一是 spread 操作符。你不仅可以用它替换 cancat()和 slice()方法，使数组的操作(复制、合并)更加简单，还可以在数组必须以拆解的方式作为函数参数的情况下，spread 操作符也很实用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const arr1 &#x3D; [10, 20, 30];</span><br><span class="line">const copy &#x3D; [...arr1]; &#x2F;&#x2F; 复制</span><br><span class="line">console.log(copy);    &#x2F;&#x2F; [10, 20, 30]</span><br><span class="line">const arr2 &#x3D; [40, 50];</span><br><span class="line">const merge &#x3D; [...arr1, ...arr2]; &#x2F;&#x2F; 合并</span><br><span class="line">console.log(merge);    &#x2F;&#x2F; [10, 20, 30, 40, 50]</span><br><span class="line">console.log(Math.max(...arr));    &#x2F;&#x2F; 30 拆解</span><br></pre></td></tr></table></figure>
+
+<p>ES9 通过向对象文本添加扩展属性进一步扩展了这种语法。他可以将一个对象的属性拷贝到另一个对象上，参考以下情形:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const input &#x3D; &#123;</span><br><span class="line">  a: 1,</span><br><span class="line">  b: 2,</span><br><span class="line">  c: 1</span><br><span class="line">&#125;</span><br><span class="line">const output &#x3D; &#123;</span><br><span class="line">  ...input,</span><br><span class="line">  c: 3</span><br><span class="line">&#125;</span><br><span class="line">console.log(output) &#x2F;&#x2F; &#123;a: 1, b: 2, c: 3&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码可以把 input 对象的数据都添加到 output 对象中，需要注意的是，如果存在相同的属性名，只有最后一个会生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const input &#x3D; &#123;</span><br><span class="line">  a: 1,</span><br><span class="line">  b: 2</span><br><span class="line">&#125;</span><br><span class="line">const output &#x3D; &#123;</span><br><span class="line">  ...input,</span><br><span class="line">  c: 3</span><br><span class="line">&#125;</span><br><span class="line">input.a&#x3D;&#39;smm&#39;</span><br><span class="line">console.log(input,output) &#x2F;&#x2F; &#123;a: &quot;smm&quot;, b: 2&#125; &#123;a: 1, b: 2, c: 3&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面例子中，修改 input 对象中的值，output 并没有改变，说明扩展运算符拷贝一个对象（类似这样 obj2 = {…obj1}），实现只是一个对象的浅拷贝。值得注意的是，如果属性的值是一个对象的话，该对象的引用会被拷贝：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const obj &#x3D; &#123;x: &#123;y: 10&#125;&#125;;</span><br><span class="line">const copy1 &#x3D; &#123;...obj&#125;;</span><br><span class="line">const copy2 &#x3D; &#123;...obj&#125;;</span><br><span class="line">obj.x.y&#x3D;&#39;smm&#39;</span><br><span class="line">console.log(copy1,copy2) &#x2F;&#x2F; x: &#123;y: &quot;smm&quot;&#125; x: &#123;y: &quot;smm&quot;&#125;</span><br><span class="line">console.log(copy1.x &#x3D;&#x3D;&#x3D; copy2.x);    &#x2F;&#x2F; → true</span><br></pre></td></tr></table></figure>
+
+<p>copy1.x 和 copy2.x 指向同一个对象的引用，所以他们严格相等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const input &#x3D; &#123;</span><br><span class="line">  a: 1,</span><br><span class="line">  b: 2,</span><br><span class="line">  c: 3</span><br><span class="line">&#125;</span><br><span class="line">let &#123; a, ...rest &#125; &#x3D; input</span><br><span class="line">console.log(a, rest) &#x2F;&#x2F; 1 &#123;b: 2, c: 3&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当对象 key-value 不确定的时候，把必选的 key 赋值给变量，用一个变量收敛其他可选的 key 数据，这在之前是做不到的。注意，rest 属性必须始终出现在对象的末尾，否则将抛出错误。<br>Rest 与 Spread 兼容性一致，下列以 spread 为例：<br><img src="/images/2020-06-27/spread.jpg" alt="spread"></p>
+<h3 id="3-Promise-prototype-finally"><a href="#3-Promise-prototype-finally" class="headerlink" title="3.Promise.prototype.finally()"></a>3.Promise.prototype.finally()</h3><p>Promise.prototype.finally() 方法返回一个 Promise，在 promise 执行结束时，无论结果是 fulfilled 或者是 rejected，在执行 then()和 catch()后，都会执行 finally 指定的回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fetch(&#39;https:&#x2F;&#x2F;xxx.com&#39;)</span><br><span class="line">  .then((response) &#x3D;&gt; &#123;</span><br><span class="line">    console.log(response.status);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch((error) &#x3D;&gt; &#123;</span><br><span class="line">    console.log(error);</span><br><span class="line">  &#125;)</span><br><span class="line">  .finally(() &#x3D;&gt; &#123;</span><br><span class="line">    document.querySelector(&#39;#spinner&#39;).style.display &#x3D; &#39;none&#39;;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>无论操作是否成功，当您需要在操作完成后进行一些清理时，finally()方法就派上用场了。这为指定执行完 promise 后，无论结果是 fulfilled 还是 rejected 都需要执行的代码提供了一种方式，避免同样的语句需要在 then()和 catch()中各写一次的情况。<br>Promise.prototype.finally()的支持情况：<br><img src="/images/2020-06-27/finally.jpg" alt="finally"></p>
+<h3 id="4-新的正则表达式特性"><a href="#4-新的正则表达式特性" class="headerlink" title="4.新的正则表达式特性"></a>4.新的正则表达式特性</h3><p>ES9 为正则表达式添加了四个新特性，进一步提高了 JavaScript 的字符串处理能力。这些特点如下:</p>
+<ul>
+<li>s (dotAll) 标志</li>
+<li>命名捕获组</li>
+<li>Lookbehind 后行断言</li>
+<li>Unicode 属性转义</li>
+</ul>
+<h4 id="（1）s-dotAll-flag"><a href="#（1）s-dotAll-flag" class="headerlink" title="（1）s(dotAll)flag"></a>（1）s(dotAll)flag</h4><p>正则表达式中，点（.）是一个特殊字符，代表任意的单个字符，但是有两个例外。一个是四个字节的 UTF-16 字符，这个可以用 u 修饰符解决；另一个是行终止符,如换行符(\n)或回车符(\r),这个可以通过 ES9 的 s(dotAll)flag，在原正则表达式基础上添加 s 表示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(&#x2F;foo.bar&#x2F;.test(&#39;foo\nbar&#39;)) &#x2F;&#x2F; false</span><br><span class="line">console.log(&#x2F;foo.bar&#x2F;s.test(&#39;foo\nbar&#39;)) &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）命名捕获组"><a href="#（2）命名捕获组" class="headerlink" title="（2）命名捕获组"></a>（2）命名捕获组</h4><p>ES9 引入了命名捕获组，允许为每一个组匹配指定一个名字，既便于阅读代码，又便于引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const re &#x3D; &#x2F;(?&lt;year&gt;\d&#123;4&#125;)-(?&lt;month&gt;\d&#123;2&#125;)-(?&lt;day&gt;\d&#123;2&#125;)&#x2F;;</span><br><span class="line">const match &#x3D; re.exec(&#39;2020-06-27&#39;);</span><br><span class="line">console.log(match.groups);          &#x2F;&#x2F; → &#123;year: &quot;2019&quot;, month: &quot;01&quot;, day: &quot;01&quot;&#125;</span><br><span class="line">console.log(match.groups.year);     &#x2F;&#x2F; → 2020</span><br><span class="line">console.log(match.groups.month);    &#x2F;&#x2F; → 06</span><br><span class="line">console.log(match.groups.day);      &#x2F;&#x2F; → 27</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，“命名捕获组”在圆括号内部，模式的头部添加“问号 + 尖括号 + 组名”（?），然后就可以在 exec 方法返回结果的 groups 属性上引用该组名。</p>
+<p>命名捕获组也可以使用在 replace()方法中，例如将日期转换为美国的 MM-DD-YYYY 格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const re &#x3D; &#x2F;(?&lt;year&gt;\d&#123;4&#125;)-(?&lt;month&gt;\d&#123;2&#125;)-(?&lt;day&gt;\d&#123;2&#125;)&#x2F;</span><br><span class="line">const usDate &#x3D; &#39;2020-06-27&#39;.replace(re, &#39;$&lt;month&gt;-$&lt;day&gt;-$&lt;year&gt;&#39;)</span><br><span class="line">console.log(usDate) &#x2F;&#x2F; 06-27-2020</span><br></pre></td></tr></table></figure>
+
+<h4 id="（3）Lookbehind-后行断言"><a href="#（3）Lookbehind-后行断言" class="headerlink" title="（3）Lookbehind 后行断言"></a>（3）Lookbehind 后行断言</h4><p>JavaScript 语言的正则表达式，只支持先行断言，不支持后行断言，先行断言我们可以简单理解为”先遇到一个条件，再判断后面是否满足”，如下面例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">et test &#x3D; &#39;hello world&#39;</span><br><span class="line">console.log(test.match(&#x2F;hello(?&#x3D;\sworld)&#x2F;))</span><br><span class="line">&#x2F;&#x2F; [&quot;hello&quot;, index: 0, input: &quot;hello world&quot;, groups: undefined]</span><br></pre></td></tr></table></figure>
+
+<p>但有时我们想判断前面是 world 的 hello，这个代码是实现不了的。在 ES9 就支持这个后行断言了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let test &#x3D; &#39;world hello&#39;</span><br><span class="line">console.log(test.match(&#x2F;(?&lt;&#x3D;world\s)hello&#x2F;))</span><br><span class="line">&#x2F;&#x2F; [&quot;hello&quot;, index: 6, input: &quot;world hello&quot;, groups: undefined]</span><br></pre></td></tr></table></figure>
+
+<p>(?&lt;…)是后行断言的符号，(?..)是先行断言的符号，然后结合 =(等于)、!(不等)、\1(捕获匹配)。</p>
+<h4 id="（4）Unicode-属性转义"><a href="#（4）Unicode-属性转义" class="headerlink" title="（4）Unicode 属性转义"></a>（4）Unicode 属性转义</h4><p>ES2018 引入了一种新的类的写法\p{…}和\P{…}，允许正则表达式匹配符合 Unicode 某种属性的所有字符。比如你可以使用\p{Number}来匹配所有的 Unicode 数字，例如，假设你想匹配的 Unicode 字符 ㉛ 字符串:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const str &#x3D; &#39;㉛&#39;;</span><br><span class="line">console.log(&#x2F;\d&#x2F;u.test(str));    &#x2F;&#x2F; → false</span><br><span class="line">console.log(&#x2F;\p&#123;Number&#125;&#x2F;u.test(str));     &#x2F;&#x2F; → true</span><br></pre></td></tr></table></figure>
+
+<p>同样的，你可以使用\p{Alphabetic}来匹配所有的 Unicode 单词字符:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const str &#x3D; &#39;ض&#39;;</span><br><span class="line">console.log(&#x2F;\p&#123;Alphabetic&#125;&#x2F;u.test(str));     &#x2F;&#x2F; → true</span><br><span class="line">&#x2F;&#x2F; the \w shorthand cannot match ض</span><br><span class="line">console.log(&#x2F;\w&#x2F;u.test(str));    &#x2F;&#x2F; → false</span><br></pre></td></tr></table></figure>
+
+<p>同样有一个负向的 Unicode 属性转义模板 \P{…}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">console.log(&#x2F;\P&#123;Number&#125;&#x2F;u.test(&#39;㉛&#39;));    &#x2F;&#x2F; → false</span><br><span class="line">console.log(&#x2F;\P&#123;Number&#125;&#x2F;u.test(&#39;ض&#39;));    &#x2F;&#x2F; → true</span><br><span class="line">console.log(&#x2F;\P&#123;Alphabetic&#125;&#x2F;u.test(&#39;㉛&#39;));    &#x2F;&#x2F; → true</span><br><span class="line">console.log(&#x2F;\P&#123;Alphabetic&#125;&#x2F;u.test(&#39;ض&#39;));    &#x2F;&#x2F; → false</span><br></pre></td></tr></table></figure>
+
+<p>除了字母和数字之外，Unicode 属性转义中还可以使用其他一些属性。</p>
+<p>以上这几个特性的支持情况：<br><img src="/images/2020-06-27/regular.jpg" alt="regular"></p>
+<h2 id="ES10-新特性"><a href="#ES10-新特性" class="headerlink" title="ES10 新特性"></a>ES10 新特性</h2><h3 id="1-Array-prototype-flat"><a href="#1-Array-prototype-flat" class="headerlink" title="1.Array.prototype.flat()"></a>1.Array.prototype.flat()</h3><p>flat() 方法会按照一个可指定的深度递归遍历数组，并将所有元素与遍历到的子数组中的元素合并为一个新数组返回。arr.flat(depth)， 默认值是 1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const numbers1 &#x3D; [1, 2, [3, 4, [5, 6]]]</span><br><span class="line">console.log(numbers1.flat())&#x2F;&#x2F; [1, 2, 3, 4, [5, 6]]</span><br><span class="line">const numbers2 &#x3D; [1, 2, [3, 4, [5, 6]]]</span><br><span class="line">console.log(numbers2.flat(2))&#x2F;&#x2F; [1, 2, 3, 4, 5, 6]</span><br></pre></td></tr></table></figure>
+
+<p>Array.prototype.flat 的支持情况：<br><img src="/images/2020-06-27/flat.jpg" alt="flat"></p>
+<h3 id="2-Array-prototype-flatMap"><a href="#2-Array-prototype-flatMap" class="headerlink" title="2.Array.prototype.flatMap()"></a>2.Array.prototype.flatMap()</h3><p>flatMap() 方法首先使用映射函数映射每个元素，然后将结果压缩成一个新数组。从方法的名字上也可以看出来它包含两部分功能一个是 map，一个是 flat（深度为 1）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let arr &#x3D; [1, 2, 3]</span><br><span class="line">console.log(arr.map(item &#x3D;&gt; [item * 2]).flat()) &#x2F;&#x2F; [2, 4, 6]</span><br><span class="line">console.log(arr.flatMap(item &#x3D;&gt; [item * 2])) &#x2F;&#x2F; [2, 4, 6]</span><br></pre></td></tr></table></figure>
+
+<p>实际上 flatMap 是综合了 map 和 flat 的操作，所以它也只能打平一层。<br>Array.prototype.flatmap 的支持情况：<br><img src="/images/2020-06-27/flatMap.jpg" alt="flatMap"></p>
+<h3 id="3-Object-fromEntries"><a href="#3-Object-fromEntries" class="headerlink" title="3.Object.fromEntries()"></a>3.Object.fromEntries()</h3><p>Object.fromEntries 这个新的 API 实现了与 Object.entries 相反的操作。这使得根据对象的 entries 很容易得到 object。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const object &#x3D; &#123; x: 23, y:24 &#125;;</span><br><span class="line">const entries &#x3D; Object.entries(object); &#x2F;&#x2F; [[&#39;x&#39;, 23], [&#39;y&#39;, 24]]</span><br><span class="line">const result &#x3D; Object.fromEntries(entries); &#x2F;&#x2F; &#123; x: 23, y: 24 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Object.entries 这个方法可以将对象转换为数组,这样对象就可以使用数组原型中的众多内置方法，比如 map, filter、reduce，然后通过 Object.fromEntries()再次转化为对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 用Object.fromEntries()来实现</span><br><span class="line">const obj &#x3D; &#123;</span><br><span class="line">  a: 21,</span><br><span class="line">  b: 22,</span><br><span class="line">  c: 23</span><br><span class="line">&#125;</span><br><span class="line">let res &#x3D; Object.fromEntries(Object.entries(obj).filter(([a, b]) &#x3D;&gt; b &gt; 21))</span><br><span class="line">console.log(res) &#x2F;&#x2F; &#123;b: 22, c: 23&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Object.fromEntries()的支持情况：<br><img src="/images/2020-06-27/fromEntries.jpg" alt="fromEntries"></p>
+<h3 id="4-String-trimStart-和-String-trimEnd"><a href="#4-String-trimStart-和-String-trimEnd" class="headerlink" title="4.String.trimStart 和 String.trimEnd"></a>4.String.trimStart 和 String.trimEnd</h3><p>trimStart() 方法从字符串的开头删除空格，trimLeft()是此方法的别名。<br>trimEnd() 方法从一个字符串的右端移除空白字符，trimRight 是 trimEnd 的别名。<br>String.trimStart 和 String.trimEnd 两者兼容性一致，下图以 trimStart 为例：<br><img src="/images/2020-06-27/trimStart.jpg" alt="trimStart"></p>
+<h3 id="5-String-prototype-matchAll"><a href="#5-String-prototype-matchAll" class="headerlink" title="5.String.prototype.matchAll"></a>5.String.prototype.matchAll</h3><p>通过 ES10 的 String.prototype.matchAll 方法，可以一次性取出所有匹配。string.matchAll(regex)返回的是遍历器，所以可以用 for…of 循环取出。<br>String.prototype.matchAll 的支持情况：<br><img src="/images/2020-06-27/matchAll.jpg" alt="matchAll"></p>
+<h3 id="6-try…catch"><a href="#6-try…catch" class="headerlink" title="6.try…catch"></a>6.try…catch</h3><p>在 ES10 中，try-catch 语句中的参数变为了一个可选项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  console.log(&#39;Foobar&#39;)</span><br><span class="line">&#125; catch &#123;</span><br><span class="line">  console.error(&#39;Bar&#39;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>try…catch 的支持情况：<br><img src="/images/2020-06-27/tryCatch.jpg" alt="tryCatch"></p>
+<h3 id="7-BigInt"><a href="#7-BigInt" class="headerlink" title="7.BigInt"></a>7.BigInt</h3><p>JavaScript 所有数字都保存成 64 位浮点数，这给数值的表示带来了两大限制。一是数值的精度只能到 53 个二进制位（相当于 16 个十进制位），大于这个范围的整数，JavaScript 是无法精确表示的，这使得 JavaScript 不适合进行科学和金融方面的精确计算。二是大于或等于 2 的 1024 次方的数值，JavaScript 无法表示，会返回 Infinity。<br>ES10 引入了一种新的数据类型 BigInt（大整数），来解决这个问题。BigInt 只用来表示整数，没有位数的限制，任何位数的整数都可以精确表示。<br>创建 BigInt 类型的值也非常简单，只需要在数字后面加上 n 即可。例如，123 变为 123n。也可以使用全局方法 BigInt(value) 转化，入参 value 为数字或数字字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const aNumber &#x3D; 111;</span><br><span class="line">const aBigInt &#x3D; BigInt(aNumber);</span><br><span class="line">aBigInt &#x3D;&#x3D;&#x3D; 111n &#x2F;&#x2F; true</span><br><span class="line">typeof aBigInt &#x3D;&#x3D;&#x3D; &#39;bigint&#39; &#x2F;&#x2F; true</span><br><span class="line">typeof 111 &#x2F;&#x2F; &quot;number&quot;</span><br><span class="line">typeof 111n &#x2F;&#x2F; &quot;bigint&quot;</span><br></pre></td></tr></table></figure>
+
+<p>如果算上 BigInt，JavaScript 中原始类型就从 6 个变为了 7 个。</p>
+<ul>
+<li>Boolean</li>
+<li>Null</li>
+<li>Undefined</li>
+<li>Number</li>
+<li>String</li>
+<li>Symbol(new in ECMAScript 2015)</li>
+<li>BigInt (new in ECMAScript 2019)</li>
+</ul>
+<p>BigInt 的支持情况：<br><img src="/images/2020-06-27/bigInt.jpg" alt="bigInt"></p>
+<h3 id="8-Symbol-prototype-description"><a href="#8-Symbol-prototype-description" class="headerlink" title="8.Symbol.prototype.description"></a>8.Symbol.prototype.description</h3><p>Symbol 的描述只被存储在内部的 [[Description]]，没有直接对外暴露，我们只有调用 Symbol 的 toString() 时才可以读取这个属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Symbol(&#39;desc&#39;).description;  &#x2F;&#x2F; &quot;desc&quot;</span><br><span class="line">Symbol(&#39;&#39;).description;      &#x2F;&#x2F; &quot;&quot;</span><br><span class="line">Symbol().description;        &#x2F;&#x2F; undefined</span><br></pre></td></tr></table></figure>
+
+<p>Symbol.prototype.description 的支持情况：<br><img src="/images/2020-06-27/description.jpg" alt="description"></p>
+<h3 id="9-Function-prototype-toString"><a href="#9-Function-prototype-toString" class="headerlink" title="9.Function.prototype.toString()"></a>9.Function.prototype.toString()</h3><p>ES2019 中，Function.toString()发生了变化。之前执行这个方法时，得到的字符串是去空白符号的。而现在，得到的字符串呈现出原本源码的样子：<br>Function.prototype.toString()的支持情况：<br><img src="/images/2020-06-27/toString.jpg" alt="toString"></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/27/ES7%E3%80%81ES8%E3%80%81ES9%E3%80%81ES10%E6%96%B0%E7%89%B9%E6%80%A7%E5%A4%A7%E7%9B%98%E7%82%B9/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/17/HTTP2%E4%B9%8B%E5%B8%A7/" class="archive-article-date">
-  	<time datetime="2020-05-17T10:39:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/17/HTTP2%E4%B9%8B%E5%B8%A7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP2之帧</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/17/HTTP2%E4%B9%8B%E5%B8%A7/">HTTP2之帧</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/18/%E5%85%A5%E9%97%A8Webpack/" class="archive-article-date">
-  	<time datetime="2020-04-18T13:15:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/18/%E5%85%A5%E9%97%A8Webpack/">入门webpack</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/22/VirtualDOM%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-03-22T09:35:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/22/VirtualDOM%E7%AE%97%E6%B3%95/">Virtual DOM算法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/02/21/ES6%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99/" class="archive-article-date">
-  	<time datetime="2020-02-21T14:16:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/21/ES6%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99/">ES6字符串和正则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-01-01T13:24:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/">2k屏幕开启HiDPI</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -350,8 +523,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
