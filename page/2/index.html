@@ -152,6 +152,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Git恢复-Reset、Revert" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/">Git恢复-Reset、Revert</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/" class="archive-article-date">
+  	<time datetime="2019-11-19T10:40:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一·问题描述"><a href="#一·问题描述" class="headerlink" title="一·问题描述"></a><a href="#一·问题描述" title="一·问题描述"></a>一·问题描述</h2><p>在利用git实现多人合作程序开发的过程中，我们有时会出现错误提交的情况，此时我们希望能撤销提交操作，让程序回到提交前的样子，一般有两种解决方法：reset、revert。</p>
+<h2 id="二·背景知识"><a href="#二·背景知识" class="headerlink" title="二·背景知识"></a><a href="#二·背景知识" title="二·背景知识"></a>二·背景知识</h2><p>使用Git的每次提交，Git都会自动把他们串成一条时间线，这条时间线就是一个分支。如果没有新建分支，就只有一条时间线，即master分支。如下图，假设只有一个分支：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjAwNDQyNjAz" alt="Git Head"></p>
+<h2 id="三·解决方法"><a href="#三·解决方法" class="headerlink" title="三·解决方法"></a><a href="#三·解决方法" title="三·解决方法"></a>三·解决方法</h2><h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><a href="#git-reset" title="git reset"></a>git reset</h3><p><strong>原理：</strong> git reset的作用是修改HEAD的位置，即将HEAD指向的位置改变为之前存在的某个版本，如下图所示，假设我们要回退到版本一:<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjEyMjIxMDMz" alt="Reset"><br><strong>适用场景：</strong> 如果想恢复到之前某个提交的版本，且那个版本之后提交的版本我们都不要了，就可以用这种方法。在我们的项目中目前没有用到，就不做赘述。</p>
+<h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a><a href="#操作" title="操作"></a>操作</h5><ol>
+<li>“git log”查看版本号</li>
+<li>使用”git reset –hard 目标版本号”命令将版本回退</li>
+<li>使用“git push -f”提交更改</li>
+</ol>
+<h3 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a><a href="#git-revert" title="git revert"></a>git revert</h3><p><strong>原理：</strong> git revert是用于“反做”某个版本，以达到撤销该版本的目的。比如，我们commit了三个版本（版本一、版本二、 版本三），突然发现版本二不行（如：有bug），想要撤销版本二，但又不想影响撤销版本三的提交，就可以用 git revert 命令来反做版本二，生成新的版本四，这个版本四里会保留版本三的东西，但撤销了版本二的东西。如下图所示：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwNDE0MjA1ODE2MTg4" alt="Revert"><br><strong>适用场景：</strong> 如果我们想撤销之前的某一版本，但是又想保留该目标版本后面的版本，记录下这整个版本变动流程，就可以用这种方法。我们的项目经常遇到，当一个分支合并后又因为某些原因不上线，需要从master、release或者integration分支上revert掉。在这里主要说明这个问题，因为之前项目中遇到了此类问题。</p>
+<h5 id="操作-1"><a href="#操作-1" class="headerlink" title="操作"></a><a href="#操作-1" title="操作"></a>操作</h5><p>· GitLab操作<br>如下图，merge成功后就会有revert按钮，直接点击就OK啦<br><img src="/images/gitlab-revert.png?raw=true" alt="GitLab Revert"></p>
+<p>· Revert commit</p>
+<ol>
+<li>查看版本号</li>
+<li>直接git revert commit_id</li>
+</ol>
+<p>· Revert merge commit<br>其实在我们的项目中经常遇到的就是这种情况，“xxx，这次不上线了，你把这个pr revert掉吧”<br>下面就讲述一下这个问题，让你放心大胆的以正确的姿势revert！<br>一个 merge commit 是将两条线合并到一条线上，因此，合并时的那个commit，将具有两个祖先。git 不知道 base 是选择哪个 parent 进行 diff，所以是不能直接revert一个pr的，你要用 -m 属性显示地告诉 git 用哪一个 parent。<br>那么，如何查看当前的commit有几个祖先呢？</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">git show commit_id(可以通过git log 或者直接在GitLab上查看)</span>
+</pre></td></tr></tbody></table></figure>
+
+<p>例如下图，一次合并将有两个parent：<br><img src="https://user-gold-cdn.xitu.io/2018/4/12/162b9c76701f9524?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="commit parent"><br>如何区分parent呢？当你在 B 分支上把 A merge 到 B 中，那么 B 就是merge commit 的 parent1，而 A 是 parent2。<br>接下来就放心大胆的操作吧！</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">git revert commit_id -m parent_id</span>
+</pre></td></tr></tbody></table></figure>
+
+<p>在这里，对于具有多个 parent 的 commit，需要结合 -m 属性：git revert commit_id -m parent_id;而对于从 branch 合并到 master 的 merge commit，master 的 parent_id 是1，branch 的 parent_id 是2, 反之亦然;</p>
+<p>此次博客主要记录了一下上次上线的Bug。由于前端在集成前merge了master，后端没有merge，且该需求未达上线标准，需要从master上revert掉，其实更准确的说是需要从integration上revert。但是呢，在GitLab上操作后，忘记了集成时已经cherry-pick到integration了，这个pr就跟着一起上线了。之后周一发现了这个问题，就赶紧进行revert，但之前对revert操作不熟悉，未能正确revert，捣鼓了半天才revert成功。在这里找到了一篇讲述revert的文章，感兴趣的小伙伴自取哦！<br><a href="https://juejin.im/post/5acf4db8f265da239148822d#heading-3" target="_blank" rel="noopener">当你决定去 revert 一个merge commit</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-如何构建大型React应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
