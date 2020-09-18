@@ -152,6 +152,350 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-前端框架的文件结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">前端框架的文件结构</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
+  	<time datetime="2019-12-22T09:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="1-传统的MVC结构"><a href="#1-传统的MVC结构" class="headerlink" title="1.传统的MVC结构"></a>1.传统的MVC结构</h3><p>在MVC中，应用代码分为Controller,Model,View，分别代表三种模块角色，就是把所有的Controller代码放在controller文件夹下，把所有的Model代码放在model文件夹下，把View代码放在view文件夹下。在开发一些简单的Redux应用时，可以使用这种页面划分方法。如下所示：</p>
+<blockquote>
+<p>app.js<br>actions </p>
+<blockquote>
+<p>actionA.js<br>actionB.js</p>
+</blockquote>
+<p>reducers</p>
+<blockquote>
+<p>reducerA.js<br>reducerB.js</p>
+</blockquote>
+<p>components</p>
+<blockquote>
+<p>componentsA.js<br>componentsB.js</p>
+</blockquote>
+<p>containers</p>
+<blockquote>
+<p>containerA.js<br>containerB.js</p>
+</blockquote>
+</blockquote>
+<p>在这里对container和component作以下区分：</p>
+<ul>
+<li>Container通常会负责和服务端的沟通，还有一些业务逻辑的处理。他们通常只负责获取数据，处理数据，处理状态，但一般不知道如何去展示页面。</li>
+<li>Component通常不知道数据如何获取，也不知道这些数据是做什么用的，更不知道怎么去操作这些数据，他们一般只负责页面的渲染，把领导给的数据放到对应的位置。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>container</th>
+<th>component</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目的</td>
+<td>如何工作（数据获取、状态更新）</td>
+<td>如何展示（样式、布局）</td>
+</tr>
+<tr>
+<td>是否在Redux数据流中</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>读取数据</td>
+<td>从Redux中获取数据</td>
+<td>从props中获取数据</td>
+</tr>
+<tr>
+<td>修改数据</td>
+<td>向Redux派发action</td>
+<td>从props调用回调函数</td>
+</tr>
+</tbody></table>
+<h3 id="2-按功能组织"><a href="#2-按功能组织" class="headerlink" title="2.按功能组织"></a>2.按功能组织</h3><p>Redux应用适合于“按功能组织”，也就是把完成同一应用功能的代码放在一个目录下，一个应用功能包含多个角色的代码。Redux中，不同的角色就是reducer、actions和视图，而应用功能对应的就是用户界面的交互模块。<br>例如分为todoA和todoB两个功能，则可以使用以下页面结构：</p>
+<blockquote>
+<p>todoA</p>
+<blockquote>
+<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
+<blockquote>
+<p>container.js<br>component.js</p>
+</blockquote>
+</blockquote>
+<p>todoB</p>
+<blockquote>
+<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
+<blockquote>
+<p>container.js<br>component.js</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>每个功能模块对应一个目录，分别是todoA和todoB，每个目录下包含同样的角色文件：</p>
+<ul>
+<li>actionTypes.js 定义action类型；</li>
+<li>actions.js 定义action构造函数；</li>
+<li>reducer.js定义这个功能模块如果响应actions.js定义的动作；</li>
+<li>views 包含功能模块中所有的React组件，包括展示组件和容器组件；</li>
+<li>index.js 把所有的角色导入，统一导出。</li>
+</ul>
+<p>这种组织方式下，当你要修改某个模块时，只要关注对应的目录即可。</p>
+<h3 id="3-推荐的Redux项目目录结构"><a href="#3-推荐的Redux项目目录结构" class="headerlink" title="3.推荐的Redux项目目录结构"></a>3.推荐的Redux项目目录结构</h3><p>但常常一个项目都不会太简单，所以推荐使用上面两种方式的结合。<br>既采用了类型划分的优势，又添加了功能划分的特点。<br>如下所示：</p>
+<blockquote>
+<p>app.js    // 整个应用的入口</p>
+<blockquote>
+<p>views    // 应用中某个页面的入口文件，一般为路由组件。</p>
+<blockquote>
+<p>ViewTodoA.js<br>ViewTodoB.js</p>
+</blockquote>
+</blockquote>
+<p>components    // 所应用的组件</p>
+<blockquote>
+<p>todoA</p>
+<blockquote>
+<p>TodoAComponentOne.js<br>TodoACompnentTwo.js</p>
+</blockquote>
+<p>todoB</p>
+<blockquote>
+<p>TodoBComponentOne.js<br>TodoBCompnentTwo.js</p>
+</blockquote>
+<p>common   // 不归属与任何view的组件。例如一些公共组件。</p>
+</blockquote>
+<p>containers    // 如上<br>layouts    // 布局相关的组件及样式，如菜单，侧边栏，header,footer等。<br>redux   // Redux Store 相关的配置</p>
+<blockquote>
+<p>reducers.js    // 整个应用中所有reducer的汇总<br>store.js   // 整个项目的store</p>
+</blockquote>
+<p>routers   // 路由相关的配置<br>utils   // 工具函数，常量等<br>styles    // 全局公共样式</p>
+</blockquote>
+<h2 id="umi"><a href="#umi" class="headerlink" title="umi"></a>umi</h2><p>umi，中文可发音为乌米，是一个可插拔的企业级react应用框架。umi以路由为基础的，支持<a href="https://umijs.org/zh/guide/router.html" target="_blank" rel="noopener">类next.js的约定式路由</a>，以及各种进阶的路由功能，并以此进行功能扩展，比如<a href="https://umijs.org/zh/plugin/umi-plugin-react.html#dynamicimport" target="_blank" rel="noopener">支持路由级的按需加载</a>。然后配以完善的<a href="https://umijs.org/zh/plugin/" target="_blank" rel="noopener">插件体系</a>，覆盖从源码到构建产物的每个生命周期，支持各种功能扩展和业务需求，目前内外部加起来已有50+的插件。</p>
+<p>在文件和目录的组织上，umi更倾向于选择约定的方式。<br>一个复杂应用的目录结构如下：</p>
+<blockquote>
+<p>dist    // 默认的 build 输出目录<br>mock    // mock文件所在目录，基于express<br>config</p>
+<blockquote>
+<p>config.js    // umi 配置，同.umirc.js，二选一</p>
+</blockquote>
+<p>src    // 源码目录，可选。如果不存在src目录，则当前目录会被作为源码目录。</p>
+<blockquote>
+<p>layout/index.js     // 全局布局<br>pages    // 页面目录，里面的文件即路由</p>
+<blockquote>
+<p>.umi/   // dev 临时目录，需添加到 .gitignore<br>.umi-production   // build 临时目录，会自动删除<br>document.ejs    // HTML 模板<br>page1.js    // 页面 1，任意命名，导出 react 组件<br>page1.test.js   // 用例文件，umi test 会匹配所有 .test.js 和 .e2e.js 结尾的文件<br>page2.js    // 页面 2，任意命名</p>
+</blockquote>
+<p>global.css   // 约定的全局样式文件，自动引入，也可以用 global.less<br>global.js    // 可以在这里加入 polyfill<br>app.js   // 运行时配置文件 </p>
+</blockquote>
+<p>.umirc.js   // umi 配置，同 config/config.js，二选一<br>.env    // 环境变量<br>package.json</p>
+</blockquote>
+<p>约定式路由： umi会根据pages下的文件自动生成路由配置。umi里约定，带$前缀的目录或文件为动态路由；带$后缀，则为可选动态路由。约定目录下有 _layout.js时会生成嵌套路由，以 _layout.js为该目录的 layout。<br>如果你倾向于使用配置式的路由，可以配置.umirc.(ts|js) 或者config/config.(ts|js) 配置文件中的routes属性，此配置项存在时则不会对src/pages 目录做约定式的解析。src下的目录可为：</p>
+<blockquote>
+<p>src  // 应用的所有代码</p>
+<blockquote>
+<p>actions     // 处理异步请求<br>assets      // 静态资源<br>components  // 公用组件<br>pages       // 业务逻辑页面<br>reducers    // reducer 状态处理<br>util        // 公用方法<br>index.html  // 项目模板<br>index.js    // 项目入口</p>
+</blockquote>
+</blockquote>
+<h2 id="dva"><a href="#dva" class="headerlink" title="dva"></a>dva</h2><p>dva是一个基于<a href="https://github.com/reduxjs/redux" target="_blank" rel="noopener">redux</a>和<a href="https://github.com/redux-saga/redux-saga" target="_blank" rel="noopener">redux-saga</a>的数据流方案，然后为了简化开发体验，dva还额外内置了<a href="https://github.com/ReactTraining/react-router" target="_blank" rel="noopener">react-router</a>和<a href="https://github.com/github/fetch" target="_blank" rel="noopener">fetch</a>，所以也可以理解为一个轻量级的应用框架。</p>
+<h4 id="命名由来"><a href="#命名由来" class="headerlink" title="命名由来"></a>命名由来</h4><blockquote>
+<p>D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。</p>
+</blockquote>
+<!-- > <p align="right">---------来自[守望先锋](https://ow.blizzard.cn/heroes/overwatch-dva)</p> -->
+
+<p><img src="/images/2019-12-22/dva.jpg" alt="dva"></p>
+<p>由dva-cli搭建的项目目录结构如下</p>
+<blockquote>
+<p>src</p>
+<blockquote>
+<p>assets   // 静态资源<br>components   // UI Component<br>models   // dva通过model的概念把一个领域的模型管理起来，包含同步更新state的reducers，处理异步逻辑的effects，订阅数据源的subscriptions 。<br>routes   // router.js中路由下的component</p>
+<blockquote>
+<p>IndexPage.css<br>IndexPage.js</p>
+</blockquote>
+<p>services   // 网络请求<br>utils    // 公用方法</p>
+<blockquote>
+<p>request.js    // fetch</p>
+</blockquote>
+<p>index.js   // init dva<br>router.js    // 定义路由</p>
+</blockquote>
+</blockquote>
+<h2 id="umi-dva"><a href="#umi-dva" class="headerlink" title="umi+dva"></a>umi+dva</h2><p>在umi的官网，推荐umi和dva一起使用</p>
+<ul>
+<li>umi可以简单地理解为roadhog+路由，思路类似next.js/nuxt.js，辅以一套插件机制，目的是通过框架的方式简化React开发</li>
+<li>dva目前是纯粹的数据流，和umi以及roadhog之间并没有相互的依赖关系，可以分开使用也可以一起使用，个人觉得<a href="https://github.com/sorrycc/blog/issues/66" target="_blank" rel="noopener">umi+dva是比较搭的</a><br>根据上面的介绍，dva项目之前通常都是扁平的组织方式，而用了umi后，可以按页面维度进行组织。<blockquote>
+<p>src</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>g.js</p>
+</blockquote>
+<p>pages</p>
+<blockquote>
+<p>a</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>a.js<br>b.js<br>ss</p>
+<blockquote>
+<p>s.js</p>
+</blockquote>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+<p>c</p>
+<blockquote>
+<p>model.js<br>d</p>
+<blockquote>
+<p>models</p>
+<blockquote>
+<p>d.js</p>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+</blockquote>
+<p>page.js</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<p>如上目录：</p>
+<ul>
+<li>global model 为 src/models/g.js</li>
+<li>/a 的 page model 为 src/pages/a/models/{a,b,ss/s}.js</li>
+<li>/c 的 page model 为 src/pages/c/model.js</li>
+<li>/c/d 的 page model 为 src/pages/c/model.js, src/pages/c/d/models/d.js</li>
+</ul>
+<p>好处是加结构更加清晰了，减少耦合，一删全删，方便 copy 和共享。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Git内部原理揭秘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/">Git内部原理揭秘</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/" class="archive-article-date">
+  	<time datetime="2019-12-16T14:14:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>继上次遇到Git的坑后，这次又掉入Git的坑中，最近刚好看了一篇讲述Git的文章在此跟大家分享一下。<br>下面这张动图简单展示了Git的内部原理，如果你已经能看懂这张图了就可以跳过这篇博客啦。<br><img src="/images/git-all.gif" alt="Git"></p>
+<h2 id="Git的存储"><a href="#Git的存储" class="headerlink" title="Git的存储"></a>Git的存储</h2><p>我们按照上面的动图，创建两个文件。<br><img src="/images/git-init.png" alt="Git init"><br>Git会将整个数据库储存在.git/目录下，我们此时去查看.git/objects目录，你会发现仓库里面多了两个object。<br><img src="/images/tree-git.png" alt="tree-git"><br>下面我们来看一下里面存的是什么。<br><img src="/images/cat-txt.png" alt="cat-txt"><br>这串乱码是Git将信息压缩成二进制文件，同时，Git也提供了一个能够帮助你探索它的Api</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git cat-file [-t] [-p]</span><br><span class="line">&#x2F;&#x2F; -t可以查看object的类型，-p可以查看object存储的具体内容</span><br></pre></td></tr></table></figure>
+<p>下面我们来试试这两个命令<br><img src="/images/cat-file.png" alt="cat-file"><br>这个object是一个blob类型，它只存储文件的内容，不包括文件名等其他信息。然后Git将这些信息经过SHA1哈希算法得到一个哈希值，即我们看到的58c9bdf9d017fcd178dc8c073cbfcbb7ff240d6c，作为这个blob的唯一id，也就是说此时的Git仓库是这样的：<br><img src="/images/git-respository.png" alt="Git repository"><br>现在，我们创建一个commit，并查看一下git仓库目前的存储<br><img src="/images/git-commit.png" alt="git-commit"><br>此时，Git仓库里面多出了两个object。使用cat-file来看看这两个object吧<br><img src="/images/cat-file-all.png" alt="cat-file-all"><br>在这里，多的两个object是：tree、commit。<br>tree： 它将当前的目录结构打了一个快照。从它储存的内容来看可以发现它储存了一个目录结构（类似于文件夹），以及每一个文件（或者子文件夹）的权限、类型、对应的身份证（SHA1值）、以及文件名。<br>此时Git仓库是这样的<br><img src="/images/tree.png" alt="tree"><br>commit： 它储存的是一个提交的信息，包括对应目录结构的快照tree的哈希值，上一个提交的哈希值（这里由于是第一个提交，所以没有父节点。在一个merge提交中还会出现多个父节点），提交的作者以及提交的具体时间，最后是该提交的信息。<br>此时Git仓库是这样的<br><img src="/images/commit.png" alt="commit"><br>到这里，我们就知道Git是怎么存储一个提交的信息啦<br>那么，我们平时接触的分支信息怎么存储呢？<br><img src="/images/git-refs.png" alt="git-refs"><br>在Git仓库里面，HEAD、分支、普通的Tag可以简单的理解成是一个指针，指向对应commit的SHA1值。<br><img src="/images/branch.png" alt="branch"><br>其实还有第四种Git object，类型是tag。<br>至此我们知道了Git是什么储存一个文件的内容、目录结构、commit信息和分支的。</p>
+<h2 id="Git的三个分区"><a href="#Git的三个分区" class="headerlink" title="Git的三个分区"></a>Git的三个分区</h2><p>Git有三个分区：工作目录、Index索引区域、Git仓库<br>它们所存储的信息分别是<br>· 工作目录 （ working directory ）：操作系统上的文件，所有代码开发编辑都在这上面完成。<br>· 索引（ index or staging area ）：可以理解为一个暂存区域，这里面的代码会在下一次commit被提交到Git仓库。<br>· Git仓库（ git repository ）：由Git object记录着每一次提交的快照，以及链式结构记录的提交变更历史。<br>接着上面的例子，目前的仓库状态如下：<br><img src="/images/git-zone.png" alt="git-zone"><br>现在，我们更新一下一个文件的内容，将a.txt修改为333，此时索引区域和git仓库未发生任何变化<br>这个过程如下图所示：<br><img src="/images/change.gif" alt="change"><br>但是git add后就不一样啦，它会在仓库里新建一个blob object，这个object存储新的文件内容，同时更新索引的指向到新建的blob object。这个过程如下图：<br><img src="/images/git-add.gif" alt="git-add"><br>至于git commit，它会进行如下操作：</p>
+<ol>
+<li>Git首先根据当前的索引生产一个tree object，充当新提交的一个快照。</li>
+<li>创建一个新的commit object，将这次commit的信息储存起来，并且parent指向上一个commit，组成一条链记录变更历史。</li>
+<li>将master分支的指针移到新的commit结点。</li>
+</ol>
+<p>具体的过程请见下图：<br><img src="/images/git-commit.gif" alt="update"></p>
+<p>至此，我们已经了解了Git的三个分区、他们的作用，以及历史链是怎么被建立的。<strong>基本上Git的大部分指令就是在操作这三个分区以及这条链。</strong><br>对我启发最大的还是这篇文章中生动的图片，我们可以尝试把git的相关命令“可视化”出来，相信大家可以更好的掌握它的。</p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><ol>
+<li>文件的权限和文件名存在哪里？为什么？<br>   文件的权限和文件名存储在tree object里面，这样修改一个文件的文件名后就可以创建一个新的tree object，原本的blob object可以复用，节省了空间。</li>
+<li>每次commit，Git存储的是全新的文件快照还是存储文件的变更部分？<br>   Git存储的是全新的文件快照，这么做的原因是Git在空间和时间上做了取舍。试想一下，如果Git存储的是文件的变更，我们checkout一个commit，Git需要从第一个commit开始，一直计算，直至目标commit，这会非常耗时。<br>   当然，在涉及网络传输或者Git仓库真的体积很大的时候，Git会有垃圾回收机制gc，不仅会清除无用的object，还会把已有的相似object打包压缩。</li>
+<li>Git怎么保证历史记录不可篡改？<br>   通过SHA1哈希算法和哈系树来保证。如果你偷偷修改了历史变更记录上一个文件的内容，那么这个问卷的blob object的SHA1哈希值就变了，与之相关的tree object的SHA1也需要改变，commit的SHA1也要变，这个commit之后的所有commit SHA1值也要跟着改变。又由于Git是分布式系统，即所有人都有一份完整历史的Git仓库，所以所有人都能很轻松的发现存在问题。</li>
+</ol>
+<blockquote>
+<p>视频链接： <a href="https://www.bilibili.com/video/av77252063" target="_blank" rel="noopener">https://www.bilibili.com/video/av77252063</a></p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Git恢复-Reset、Revert" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
