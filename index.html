@@ -152,6 +152,115 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-初探NextJs及部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/07/%E5%88%9D%E6%8E%A2NextJs%E5%8F%8A%E9%83%A8%E7%BD%B2/">初探NextJs及部署</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/07/%E5%88%9D%E6%8E%A2NextJs%E5%8F%8A%E9%83%A8%E7%BD%B2/" class="archive-article-date">
+  	<time datetime="2020-11-07T08:46:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Next.js 是一种 React 的服务端渲染框架，集成度极高，框架自身集成了 webpack、babel、express 等，使得开发者仅依赖 Next、react、react-dom 就可以非常方便地构建自己的 SSR React 应用，开发者甚至都不用关心路由。Next.js 的高度集成性，易于实现代码分割、路由跳转、热更新以及服务端渲染和前端渲染。</p>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><p>同 React 一样，Next 也有自己的脚手架工具： create-next-app，通过以下代码就可以快速创建一个 next 应用.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npx create-next-app</span><br><span class="line"># or</span><br><span class="line">yarn create next-app</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本特性"><a href="#基本特性" class="headerlink" title="基本特性"></a>基本特性</h2><h3 id="page"><a href="#page" class="headerlink" title="page"></a>page</h3><p>在 Next.js 中，一个 page（页面） 就是一个从 .js、jsx、.ts 或 .tsx 文件导出（export）的 React 组件 ，这些文件存放在 pages 目录下。每个 page（页面）都使用其文件名作为路由（route）。</p>
+<p>Next.js 支持具有动态路由的 pages（页面）。例如，如果你创建了一个命名为 pages/posts/[id].js 的文件，那么就可以通过 posts/1、posts/2 等类似的路径进行访问。</p>
+<p>默认情况下，Next.js 将 预渲染 每个 page（页面）。这意味着 Next.js 会预先为每个页面生成 HTML 文件，而不是由客户端 JavaScript 来完成。预渲染可以带来更好的性能和 SEO 效果。</p>
+<h3 id="数据获取"><a href="#数据获取" class="headerlink" title="数据获取"></a>数据获取</h3><ul>
+<li>getStaticProps (静态生成): 在构建时获取数据。</li>
+<li>getStaticPaths (静态生成): 指定动态路由以根据数据进行预渲染。</li>
+<li>getServerSideProps (服务器端渲染): 在每个请求上获取数据。</li>
+</ul>
+<p>getInitialProps （推荐使用 getStaticProps 或 getServerSideProps：v9.3 以上）在页面中启用服务器端渲染，并允许您进行初始数据填充，这意味着发送包含服务器中已填充数据的页面。 这对于 SEO 尤其有用。它是一个 async 的方法，接收一个称为 context 的参数，它是一个具有以下属性的对象：</p>
+<ul>
+<li>pathname - 当前路径，是/pages 中页面的路径</li>
+<li>query - URL 的查询字符串部分被解析为对象</li>
+<li>asPath - 浏览器中显示的实际路径（包括查询）的字符串</li>
+<li>req - HTTP request object (server only)</li>
+<li>res - HTTP response object (server only)</li>
+<li>err - 渲染期间遇到任何错误的错误对象</li>
+</ul>
+<h3 id="内置-CSS-支持"><a href="#内置-CSS-支持" class="headerlink" title="内置 CSS 支持"></a>内置 CSS 支持</h3><p>Next.js 允许你在 JavaScript 文件中导入（import） CSS 文件。 因为 Next.js 扩展了 JavaScript 中的 import 的概念，让这一功能称为可能。Next.js 也支持组件级添加 CSS。Next.js 允许你导入（import）具有 .scss 和 .sass 扩展名的 Sass 文件。</p>
+<p>但对于 less 和 stylus 的支持，需要引入如下插件：</p>
+<ul>
+<li><a href="https://github.com/vercel/next-plugins/tree/master/packages/next-less" target="_blank" rel="noopener">@zeit/next-less</a></li>
+<li><a href="https://github.com/vercel/next-plugins/tree/master/packages/next-stylus" target="_blank" rel="noopener">@zeit/next-stylus</a></li>
+</ul>
+<h3 id="静态文件服务"><a href="#静态文件服务" class="headerlink" title="静态文件服务"></a>静态文件服务</h3><p>Next.js 支持将静态文件（例如图片）存放到根目录下的 public 目录中，并对外提供访问。public 目录下存放的静态文件的对外访问路径以 (/) 作为起始路径。</p>
+<h3 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h3><p>Next.js 支持 ts，首先，在项目的根目录中创建一个空的 tsconfig.json 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch tsconfig.json</span><br></pre></td></tr></table></figure>
+
+<p>然后运行 npm run dev,Next 会指导你完成所有软件包的安装及设置。</p>
+<p>如果您具有自定义应用程序，则可以使用内置类型 AppProps 并将文件名更改为./pages/_app.tsx，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import type &#123; AppProps &#x2F;*, AppContext *&#x2F; &#125; from &#39;next&#x2F;app&#39;</span><br><span class="line"></span><br><span class="line">function MyApp(&#123; Component, pageProps &#125;: AppProps) &#123;</span><br><span class="line">  return &lt;Component &#123;...pageProps&#125; &#x2F;&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default MyApp</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h3 id="动态导入"><a href="#动态导入" class="headerlink" title="动态导入"></a>动态导入</h3><p>Next 支持动态导入组件，但导入的都是文件 default 的 export，如需重命名需要如下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import(&#39;..&#x2F;components&#x2F;hello&#39;).then((mod) &#x3D;&gt; mod.Hello)</span><br></pre></td></tr></table></figure>
+
+<p>Next 也可以加 loading 状态和非 ssr 渲染，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import dynamic from &#39;next&#x2F;dynamic&#39;</span><br><span class="line"></span><br><span class="line">const DynamicComponentWithCustomLoading &#x3D; dynamic(</span><br><span class="line">  () &#x3D;&gt; import(&#39;..&#x2F;components&#x2F;hello&#39;),</span><br><span class="line">  &#123;</span><br><span class="line">    loading: () &#x3D;&gt; &lt;p&gt;...&lt;&#x2F;p&gt;,</span><br><span class="line">    ssr: false</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">function Home() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Header &#x2F;&gt;</span><br><span class="line">      &lt;DynamicComponentWithCustomLoading &#x2F;&gt;</span><br><span class="line">      &lt;p&gt;HOME PAGE is here!&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Home</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义服务器"><a href="#自定义服务器" class="headerlink" title="自定义服务器"></a>自定义服务器</h3><p>支持用户自定义服务器、Express 集成、Hapi 集成、Koa 集成及 SSR Caching。需要在根目录下创建 server.js 并修改 package.json 的 script：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;dev&quot;: &quot;node server.js&quot;,</span><br><span class="line">  &quot;build&quot;: &quot;next build&quot;,</span><br><span class="line">  &quot;start&quot;: &quot;NODE_ENV&#x3D;production node server.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数计算部署"><a href="#函数计算部署" class="headerlink" title="函数计算部署"></a>函数计算部署</h2><p>首先进行 npm run build， 然后直接执行 fun deploy -y 命令将项目部署至函数计算。</p>
+<p>部署成功后，您可以在日志中看到函数计算为您生成的临时域名，通过这个临时域名您可直接访问刚部署的应用。不过这个链接是有时效的，有个失效时间以及每天访问的次数。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://help.aliyun.com/document_detail/157692.html?spm=a2c4g.11186623.6.771.6305298bdlZc09" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/157692.html?spm=a2c4g.11186623.6.771.6305298bdlZc09</a><br><a href="https://help.aliyun.com/document_detail/146702.html?spm=a2c4g.11186623.6.782.44fa322aQFRzOt" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/146702.html?spm=a2c4g.11186623.6.782.44fa322aQFRzOt</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/07/%E5%88%9D%E6%8E%A2NextJs%E5%8F%8A%E9%83%A8%E7%BD%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-HTTP访问控制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1219,268 +1328,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-前端框架的文件结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">前端框架的文件结构</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2019-12-22T09:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="1-传统的MVC结构"><a href="#1-传统的MVC结构" class="headerlink" title="1.传统的MVC结构"></a>1.传统的MVC结构</h3><p>在MVC中，应用代码分为Controller,Model,View，分别代表三种模块角色，就是把所有的Controller代码放在controller文件夹下，把所有的Model代码放在model文件夹下，把View代码放在view文件夹下。在开发一些简单的Redux应用时，可以使用这种页面划分方法。如下所示：</p>
-<blockquote>
-<p>app.js<br>actions </p>
-<blockquote>
-<p>actionA.js<br>actionB.js</p>
-</blockquote>
-<p>reducers</p>
-<blockquote>
-<p>reducerA.js<br>reducerB.js</p>
-</blockquote>
-<p>components</p>
-<blockquote>
-<p>componentsA.js<br>componentsB.js</p>
-</blockquote>
-<p>containers</p>
-<blockquote>
-<p>containerA.js<br>containerB.js</p>
-</blockquote>
-</blockquote>
-<p>在这里对container和component作以下区分：</p>
-<ul>
-<li>Container通常会负责和服务端的沟通，还有一些业务逻辑的处理。他们通常只负责获取数据，处理数据，处理状态，但一般不知道如何去展示页面。</li>
-<li>Component通常不知道数据如何获取，也不知道这些数据是做什么用的，更不知道怎么去操作这些数据，他们一般只负责页面的渲染，把领导给的数据放到对应的位置。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>container</th>
-<th>component</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>目的</td>
-<td>如何工作（数据获取、状态更新）</td>
-<td>如何展示（样式、布局）</td>
-</tr>
-<tr>
-<td>是否在Redux数据流中</td>
-<td>是</td>
-<td>否</td>
-</tr>
-<tr>
-<td>读取数据</td>
-<td>从Redux中获取数据</td>
-<td>从props中获取数据</td>
-</tr>
-<tr>
-<td>修改数据</td>
-<td>向Redux派发action</td>
-<td>从props调用回调函数</td>
-</tr>
-</tbody></table>
-<h3 id="2-按功能组织"><a href="#2-按功能组织" class="headerlink" title="2.按功能组织"></a>2.按功能组织</h3><p>Redux应用适合于“按功能组织”，也就是把完成同一应用功能的代码放在一个目录下，一个应用功能包含多个角色的代码。Redux中，不同的角色就是reducer、actions和视图，而应用功能对应的就是用户界面的交互模块。<br>例如分为todoA和todoB两个功能，则可以使用以下页面结构：</p>
-<blockquote>
-<p>todoA</p>
-<blockquote>
-<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
-<blockquote>
-<p>container.js<br>component.js</p>
-</blockquote>
-</blockquote>
-<p>todoB</p>
-<blockquote>
-<p>action.js<br>actionTypes.js<br>reducer.js<br>index.js<br>view</p>
-<blockquote>
-<p>container.js<br>component.js</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>每个功能模块对应一个目录，分别是todoA和todoB，每个目录下包含同样的角色文件：</p>
-<ul>
-<li>actionTypes.js 定义action类型；</li>
-<li>actions.js 定义action构造函数；</li>
-<li>reducer.js定义这个功能模块如果响应actions.js定义的动作；</li>
-<li>views 包含功能模块中所有的React组件，包括展示组件和容器组件；</li>
-<li>index.js 把所有的角色导入，统一导出。</li>
-</ul>
-<p>这种组织方式下，当你要修改某个模块时，只要关注对应的目录即可。</p>
-<h3 id="3-推荐的Redux项目目录结构"><a href="#3-推荐的Redux项目目录结构" class="headerlink" title="3.推荐的Redux项目目录结构"></a>3.推荐的Redux项目目录结构</h3><p>但常常一个项目都不会太简单，所以推荐使用上面两种方式的结合。<br>既采用了类型划分的优势，又添加了功能划分的特点。<br>如下所示：</p>
-<blockquote>
-<p>app.js    // 整个应用的入口</p>
-<blockquote>
-<p>views    // 应用中某个页面的入口文件，一般为路由组件。</p>
-<blockquote>
-<p>ViewTodoA.js<br>ViewTodoB.js</p>
-</blockquote>
-</blockquote>
-<p>components    // 所应用的组件</p>
-<blockquote>
-<p>todoA</p>
-<blockquote>
-<p>TodoAComponentOne.js<br>TodoACompnentTwo.js</p>
-</blockquote>
-<p>todoB</p>
-<blockquote>
-<p>TodoBComponentOne.js<br>TodoBCompnentTwo.js</p>
-</blockquote>
-<p>common   // 不归属与任何view的组件。例如一些公共组件。</p>
-</blockquote>
-<p>containers    // 如上<br>layouts    // 布局相关的组件及样式，如菜单，侧边栏，header,footer等。<br>redux   // Redux Store 相关的配置</p>
-<blockquote>
-<p>reducers.js    // 整个应用中所有reducer的汇总<br>store.js   // 整个项目的store</p>
-</blockquote>
-<p>routers   // 路由相关的配置<br>utils   // 工具函数，常量等<br>styles    // 全局公共样式</p>
-</blockquote>
-<h2 id="umi"><a href="#umi" class="headerlink" title="umi"></a>umi</h2><p>umi，中文可发音为乌米，是一个可插拔的企业级react应用框架。umi以路由为基础的，支持<a href="https://umijs.org/zh/guide/router.html" target="_blank" rel="noopener">类next.js的约定式路由</a>，以及各种进阶的路由功能，并以此进行功能扩展，比如<a href="https://umijs.org/zh/plugin/umi-plugin-react.html#dynamicimport" target="_blank" rel="noopener">支持路由级的按需加载</a>。然后配以完善的<a href="https://umijs.org/zh/plugin/" target="_blank" rel="noopener">插件体系</a>，覆盖从源码到构建产物的每个生命周期，支持各种功能扩展和业务需求，目前内外部加起来已有50+的插件。</p>
-<p>在文件和目录的组织上，umi更倾向于选择约定的方式。<br>一个复杂应用的目录结构如下：</p>
-<blockquote>
-<p>dist    // 默认的 build 输出目录<br>mock    // mock文件所在目录，基于express<br>config</p>
-<blockquote>
-<p>config.js    // umi 配置，同.umirc.js，二选一</p>
-</blockquote>
-<p>src    // 源码目录，可选。如果不存在src目录，则当前目录会被作为源码目录。</p>
-<blockquote>
-<p>layout/index.js     // 全局布局<br>pages    // 页面目录，里面的文件即路由</p>
-<blockquote>
-<p>.umi/   // dev 临时目录，需添加到 .gitignore<br>.umi-production   // build 临时目录，会自动删除<br>document.ejs    // HTML 模板<br>page1.js    // 页面 1，任意命名，导出 react 组件<br>page1.test.js   // 用例文件，umi test 会匹配所有 .test.js 和 .e2e.js 结尾的文件<br>page2.js    // 页面 2，任意命名</p>
-</blockquote>
-<p>global.css   // 约定的全局样式文件，自动引入，也可以用 global.less<br>global.js    // 可以在这里加入 polyfill<br>app.js   // 运行时配置文件 </p>
-</blockquote>
-<p>.umirc.js   // umi 配置，同 config/config.js，二选一<br>.env    // 环境变量<br>package.json</p>
-</blockquote>
-<p>约定式路由： umi会根据pages下的文件自动生成路由配置。umi里约定，带$前缀的目录或文件为动态路由；带$后缀，则为可选动态路由。约定目录下有 _layout.js时会生成嵌套路由，以 _layout.js为该目录的 layout。<br>如果你倾向于使用配置式的路由，可以配置.umirc.(ts|js) 或者config/config.(ts|js) 配置文件中的routes属性，此配置项存在时则不会对src/pages 目录做约定式的解析。src下的目录可为：</p>
-<blockquote>
-<p>src  // 应用的所有代码</p>
-<blockquote>
-<p>actions     // 处理异步请求<br>assets      // 静态资源<br>components  // 公用组件<br>pages       // 业务逻辑页面<br>reducers    // reducer 状态处理<br>util        // 公用方法<br>index.html  // 项目模板<br>index.js    // 项目入口</p>
-</blockquote>
-</blockquote>
-<h2 id="dva"><a href="#dva" class="headerlink" title="dva"></a>dva</h2><p>dva是一个基于<a href="https://github.com/reduxjs/redux" target="_blank" rel="noopener">redux</a>和<a href="https://github.com/redux-saga/redux-saga" target="_blank" rel="noopener">redux-saga</a>的数据流方案，然后为了简化开发体验，dva还额外内置了<a href="https://github.com/ReactTraining/react-router" target="_blank" rel="noopener">react-router</a>和<a href="https://github.com/github/fetch" target="_blank" rel="noopener">fetch</a>，所以也可以理解为一个轻量级的应用框架。</p>
-<h4 id="命名由来"><a href="#命名由来" class="headerlink" title="命名由来"></a>命名由来</h4><blockquote>
-<p>D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。</p>
-</blockquote>
-<!-- > <p align="right">---------来自[守望先锋](https://ow.blizzard.cn/heroes/overwatch-dva)</p> -->
-
-<p><img src="/images/2019-12-22/dva.jpg" alt="dva"></p>
-<p>由dva-cli搭建的项目目录结构如下</p>
-<blockquote>
-<p>src</p>
-<blockquote>
-<p>assets   // 静态资源<br>components   // UI Component<br>models   // dva通过model的概念把一个领域的模型管理起来，包含同步更新state的reducers，处理异步逻辑的effects，订阅数据源的subscriptions 。<br>routes   // router.js中路由下的component</p>
-<blockquote>
-<p>IndexPage.css<br>IndexPage.js</p>
-</blockquote>
-<p>services   // 网络请求<br>utils    // 公用方法</p>
-<blockquote>
-<p>request.js    // fetch</p>
-</blockquote>
-<p>index.js   // init dva<br>router.js    // 定义路由</p>
-</blockquote>
-</blockquote>
-<h2 id="umi-dva"><a href="#umi-dva" class="headerlink" title="umi+dva"></a>umi+dva</h2><p>在umi的官网，推荐umi和dva一起使用</p>
-<ul>
-<li>umi可以简单地理解为roadhog+路由，思路类似next.js/nuxt.js，辅以一套插件机制，目的是通过框架的方式简化React开发</li>
-<li>dva目前是纯粹的数据流，和umi以及roadhog之间并没有相互的依赖关系，可以分开使用也可以一起使用，个人觉得<a href="https://github.com/sorrycc/blog/issues/66" target="_blank" rel="noopener">umi+dva是比较搭的</a><br>根据上面的介绍，dva项目之前通常都是扁平的组织方式，而用了umi后，可以按页面维度进行组织。<blockquote>
-<p>src</p>
-<blockquote>
-<p>models</p>
-<blockquote>
-<p>g.js</p>
-</blockquote>
-<p>pages</p>
-<blockquote>
-<p>a</p>
-<blockquote>
-<p>models</p>
-<blockquote>
-<p>a.js<br>b.js<br>ss</p>
-<blockquote>
-<p>s.js</p>
-</blockquote>
-</blockquote>
-<p>page.js</p>
-</blockquote>
-<p>c</p>
-<blockquote>
-<p>model.js<br>d</p>
-<blockquote>
-<p>models</p>
-<blockquote>
-<p>d.js</p>
-</blockquote>
-<p>page.js</p>
-</blockquote>
-</blockquote>
-<p>page.js</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-</ul>
-<p>如上目录：</p>
-<ul>
-<li>global model 为 src/models/g.js</li>
-<li>/a 的 page model 为 src/pages/a/models/{a,b,ss/s}.js</li>
-<li>/c 的 page model 为 src/pages/c/model.js</li>
-<li>/c/d 的 page model 为 src/pages/c/model.js, src/pages/c/d/models/d.js</li>
-</ul>
-<p>好处是加结构更加清晰了，减少耦合，一删全删，方便 copy 和共享。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">展开全文 >></a>
         </p>
       
 
