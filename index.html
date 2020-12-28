@@ -152,6 +152,100 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-函数计算版本管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/27/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">函数计算版本管理</a>
+    </h1>
+  
+
+        
+        <a href="/2020/12/27/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-12-27T07:37:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文记录了使用阿里云函数计算的版本管理功能，以及在开发集成中遇到的问题。</p>
+<h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><p>版本相当于服务的快照，包括服务的配置、服务内的函数代码及函数配置，不包括触发器。当您发布版本时，函数计算会为服务生成快照，并自动分配一个版本号与其关联，以供后续使用。版本发布后不能更改，且版本号单调递增，不会被重复使用。</p>
+<p>没有版本功能在服务上的每次改动都会立即影响到线上，虽然函数计算的重新部署很快，但对于已经上线并存在一定量用户的服务，日后的开发、测试以及上线就很麻烦。<br>有了版本功能，您可以在测试稳定后发布服务版本，用稳定的版本来服务线上请求，并且可以继续在 LATEST 版本上开发测试。<br><img src="/images/2020-12-27/version.png" alt="version"></p>
+<h2 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h2><p>别名可以理解为指向特定服务版本的指针，是函数计算的一种资源。别名无法脱离服务或版本单独存在。使用别名访问服务或函数时，函数计算会将别名解析为其指向的版本，调用方无需了解别名指向的具体版本。可以利用别名来轻松实现发布、回滚以及灰度发布等功能。</p>
+<p>例如，客户端是通过 http 触发器来调用函数的，每次新版本上线，您需要手动修改 HTTP 触发器关联的版本号，并且在修改的过程中会影响客户端的使用。而如果使用别名进行版本管理，您可以实现版本的平滑升级。</p>
+<p>设置别名 PROD 指向稳定的版本 1。若您的函数下存在触发器，设置触发器关联别名 PROD，客户端直接通过别名 PROD 调用版本 1 下的函数。</p>
+<p><img src="/images/2020-12-27/version1.png" alt="version1"></p>
+<p>发布版本 1 后，继续在 LATEST 版本上进行新功能的开发，而线上客户端是通过别名调用对应版本下的函数，所以线上调用的还是版本 1。当新功能经过测试稳定后，则发布版本 2，然后将别名 PROD 指向版本 2，这样就完成版本的更新。如果版本 2 有问题，需要回滚，只需要把别名 PROD 指回版本 1 即可。通过这种方式发布，不需要频繁更新触发器，也不会影响客户端的使用。<br><img src="/images/2020-12-27/prod.png" alt="prod"></p>
+<p>如下为在 template.yml 中设置别名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Events:</span><br><span class="line">  httpTrigger:</span><br><span class="line">    Type: HTTP</span><br><span class="line">    Properties:</span><br><span class="line">      AuthType: ANONYMOUS</span><br><span class="line">      Qualifier: ONLINE</span><br><span class="line">      Methods:</span><br><span class="line">        - GET</span><br><span class="line">        - POST</span><br></pre></td></tr></table></figure>
+
+<h2 id="版本操作"><a href="#版本操作" class="headerlink" title="版本操作"></a>版本操作</h2><p>可以在<a href="https://fc.console.aliyun.com/fc/overview/cn-beijing" target="_blank" rel="noopener">函数计算控制台</a>中操作版本，如下图所示：<br><img src="/images/2020-12-27/console.png" alt="console"></p>
+<h2 id="别名操作"><a href="#别名操作" class="headerlink" title="别名操作"></a>别名操作</h2><p>同样在控制台中可以切换别名，如上图版本旁边。</p>
+<p>在这里需要提一下，别名是可以设置灰度的，它的灰度是按权重做的，跟我们目前的灰度方案不一致所以在这里没有使用。如下图所示：<br><img src="/images/2020-12-27/gray.png" alt="gray"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>了解了相关知识，我们可以开心的使用函数计算的版本管理了，再也不用担心线上版本出问题了！ 😄<br>首先，先看看官方的示例：<br><img src="/images/2020-12-27/example.png" alt="example"></p>
+<ol>
+<li>准备函数，这里就不赘述这个过程了。</li>
+<li>发布版本，在函数控制台中发布版本</li>
+<li>使用别名切换流量，创建别名，并在触发器中使用别名，发布灰度版本稳定后全量切换至新版本</li>
+</ol>
+<p>使用在我们日常的 sprint 开发中，则是在开发和集成期间使用 LATEST （LATEST 为函数计算占用的默认版本名称，别名名称不能使用）版本进行开发测试，然后在集成结束后发布版本并修改别名。<br>这里需要注意的问题有以下两点，这也是在目前这个模式的开发中没有解决的问题，还希望大家能提供宝贵的意见：</p>
+<ol>
+<li>在集成结束后需要更改客户端的调用路径，改为线上版本</li>
+<li>因为我们的上线是有灰度版本的，而这里的别名修改是全量修改为最新发布的版本，所以在开发时需要注意对历史版本的兼容</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h4 id="1-如何确定被调用的服务的版本？"><a href="#1-如何确定被调用的服务的版本？" class="headerlink" title="1.如何确定被调用的服务的版本？"></a>1.如何确定被调用的服务的版本？</h4><ul>
+<li>通过日志确定</li>
+<li>通过 context 入参确定</li>
+<li>通过同步函数调用响应确定</li>
+</ul>
+<h4 id="2-如何查看不同版本的日志"><a href="#2-如何查看不同版本的日志" class="headerlink" title="2.如何查看不同版本的日志"></a>2.如何查看不同版本的日志</h4><p>如下图所示，可以在函数控制台中切换不同的服务版本：<br><img src="/images/2020-12-27/show.png" alt="show"></p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://help.aliyun.com/document_detail/96464.html?spm=a2c4g.11186623.3.3.50d91caccywKsC" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/96464.html?spm=a2c4g.11186623.3.3.50d91caccywKsC</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/12/27/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-初探NextJs及部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1242,92 +1336,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/02/21/ES6%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2k屏幕的HiDPI模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/">2k屏幕开启HiDPI</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-01-01T13:24:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>何为HiDPI？<br><strong>HiDPI本质上是用软件的方式实现单位面积内的高密度像素</strong>。在我们的惯性思维里，高分辨率意味着更小的字体和图标，两者只能舍其一。而通过开启HiDPI渲染，可以在保证分辨率不变的情况下，使得字体和图标变大。<br>总结下来就是：<strong>高PPI(硬件) + HiDPI渲染(软件) = 更细腻的显示效果(retina)</strong>，二者缺一不可。</p>
-<p>首先，先来看一下效果图吧：<br>这是原始的2k显示器的截图，可以看到虽然很清晰，但字很小<br><img src="/images/2020-01-01/2k.png" alt="2K原始"><br>这是未开启HiDPI的，字是变大了，但是可以明显的看到字周围的颗粒感<br><img src="/images/2020-01-01/1080p.png" alt="1080P"><br>这是开启了HiDPI的，是不是有点Retina屏的效果了？<br><img src="/images/2020-01-01/1080p+HiDPI.png" alt="1080p+HiDPI"></p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
-<li>暂时关闭SIP：<br>（1）重启电脑，并在开机声响起后按住command+R进入recovery mode<br>（2）进入终端Terminal，在终端输入关闭SIP的命令行语句：csrutil disable</li>
-<li>启用HiDPI模式<br>打开终端，然后复制/粘贴以下命令以启用HiDPI模式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo defaults write &#x2F;Library&#x2F;Preferences&#x2F;com.apple.windowserver.plist DisplayResolutionEnabled -bool true</span><br></pre></td></tr></table></figure></li>
-<li>获取显示器的两个ID：DisplayVendorID和DisplayProductID<br>打开终端，分别输入命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ioreg -l | grep &quot;DisplayVendorID&quot;</span><br><span class="line"></span><br><span class="line">ioreg -l | grep &quot;DisplayProductID&quot;</span><br></pre></td></tr></table></figure>
-在这里需要注意的是如果你连接显示器的话，这会输出两个ID，其中一个是Mac的ID，一个是显示器的，我们需要获取的是显示器的，大概率是下面那一对。<br>这两个命令会输出两个10进制数字，记下他们，下一步需要将他们转换成16进制。其中DisplayVendorID是用来命名文件夹的，DisplayProductID是用来命名文件的。</li>
-<li>将步骤3得出的两个10进制数字转换成16进制<br>在这里附一个在线进制转换的链接，方便大家使用：<a href="https://tool.oschina.net/hexconvert/" target="_blank" rel="noopener">在线进制转换</a></li>
-<li>任意位置新建一个文件夹<br>文件夹命名格式：DisplayVendorID-XXXX，其中XXXX即为你的DisplayVendorID的16进制值小写。</li>
-<li>生成DisplayProductID-YYYY文件的内容<br>在这个网站<a href="https://comsysto.github.io/Display-Override-PropertyList-File-Parser-and-Generator-with-HiDPI-Support-For-Scaled-Resolutions/" target="_blank" rel="noopener">SCALED RESOLUTIONS</a>生成DisplayProductID-YYYY，然后下载并把它copy到上一步建的空文件夹内。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp ~&#x2F;Downloads&#x2F;DisplayProductID-2701.plist ～&#x2F;Desktop&#x2F;DisplayVendorID-5e3&#x2F;DisplayProductID-d06e</span><br></pre></td></tr></table></figure></li>
-<li>DisplayVendorID-XXXX文件夹放到对应目录<br>/System/Library/Displays/Contents/Resources/Overrides/</li>
-<li>重启电脑，下载RDM方便切换分辨率<br><img src="/images/2020-01-01/RDM.png" alt="RDM"><br>在重启时，安全起见，记得开启SIP哦: csrutil enable</li>
-</ol>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>retina屏(后简称为“r屏”)与非retina屏(后简称为“非r屏”)之间显示效果的区别如图所示：<br><img src="https://pic2.zhimg.com/4fd2cc2e934020059fe525b505756591_r.jpg" alt="retina屏"></p>
-<p>这里涉及到衡量屏幕“细腻平滑”的指标，叫做PPI（Pixels Per Inch），即每英寸长度里排列了多少个像素。两块面积相同而PPI不同的屏幕，自然是PPI大的那块总像素数量多，其展示细节的潜力和能力也越大，如图下图所示：<br><img src="https://pic4.zhimg.com/185bc72a0d9267411d093d77efc6315f_r.jpg" alt="PPI"><br>iPhone全线产品的PPI一直保持320以上，虽然iPad和Mac的r屏产品线的PPI是220左右，但相比PPI只有100左右的非r屏来说，也已是极佳的视觉体验了。</p>
-<p>而“分辨率越高，字越小”的逻辑是怎么来的。显示器的屏幕面积可分为两个部分：像素的面积，像素间距构成面积。显示器厂商为了更大开口率和更多的背光量，都会让像素的间距尽可能减小以实现节能。这就意味着，整个屏幕的面积主要由像素面积构成，即在相同面积下，分辨率越高，像素数量也越多，单个像素的面积也一定越小。于是高分辨率就对应着小像素，而像素小，则由像素构成的文字就小。<br>那么，那么接下来的问题就是，既然苹果产品的r屏所包含的像素数量约为同面积非r屏的4倍，即每个像素尺寸约为非r屏像素的1/4，那为什么显示出来的文字没有缩减成1/4呢?</p>
-<p>这是操作系统的渲染方式，它决定了一个文字或图标最终以多少个像素来表达。r屏的设备并没有让字体变小，其主要原因就在于，它在表达屏幕上每个元素时，都使用了4倍于非r屏的像素个数。这样算下来，像素尺寸为1/4，像素数目为4倍，于是最终渲染出来的文字和图标的大小与非r屏的相当。</p>
-<p>这种渲染方式带来的一个最有利的结果就是，在确保了显示尺寸不缩水的前提下，让内容表达得更加细腻。这种HiDPI的渲染效果在改善视觉方面到底有多大的提升？下面的“实战”图可以很好地解释这一点：<br><img src="https://pic4.zhimg.com/e1a2029b3539506dd33ab73f7862c2bf_r.jpg" alt="Mac R屏"></p>
-<p>由图可知，在r屏HiDPI的渲染下，这一笔大约占用6x6个像素的区域，最终采用了11个“纯黑”像素加4个“灰色”像素来得到，而在非r屏的非HiDPI渲染下，这一笔只能在3x3个像素的区域来表达，最终采用1个纯黑像素加2个“灰色”像素来得到。可以明显地看到，HiDPI渲染下，笔划充实且细节丰富，而非HiDPI下由于可利用的像素数量少，只能依赖更多比例的“灰色”像素来间接补偿视觉效果。同理，可以对比观察其他笔划的细节。<br>r屏设备之所以视觉效果好，高PPI提供了硬件基础，HiDPI渲染方式提供了软件支持，二者缺一不可，即：<br><strong>高PPI(硬件) + HiDPI渲染(软件) = 更细腻的显示效果(retina)</strong><br>这就回到了我们上面的定义。</p>
-<p>那么低PPI的非r屏是如何使用HiDPI渲染的呢？可以简单的这么解释：<br><img src="https://pic3.zhimg.com/80/5d8bfbf8c98ea2ddb3aa834fb823f392_hd.jpg" alt="低PPI+HiDPI"><br>我们把右边的图放大为原来的4倍(横纵各拉长为2倍)即成为左边的图，即两张图上像素数量一样多，右边的PPI值是左边的2倍。可以看到，虽然这两块屏幕本身一个非r屏(左)一个r屏(右)，但渲染曲线的方式都是HiDPI。从最终结果来看，左右两块屏具备完全相同的显示信息，谁也没比谁多显示或少显示细节。而它们唯一的差别仅在于，左边像素尺寸是右边的4倍，导致在显示相同的内容时，左边要占用更大的面积。<br>那是否可以消除这种整体尺寸的影响呢？我们知道，人眼对像素尺寸的感观与人眼到屏幕的距离反向相关，即人眼离屏幕越远，屏幕上的像素就会看起来越小。这里放出苹果给出的人眼的视角公式：<br><img src="https://pic1.zhimg.com/80/84377b69d12678e0e055e7e6fa35b1b4_hd.jpg" alt="视角公式"><br>如图中iPhone的像素虽然比iPad上的像素尺寸小，但由于距离的原因，人眼对它们的视角，即a的值，是相同的，那么这两粒像素在人眼球的视网膜上成像的尺寸也是相同的。由于在现实中人眼离屏幕的距离(百毫米级)远大于像素的尺寸(百微米级)，则通过公式计算得到的视角a是非常小的，于是我们可以近似认为，公式中的反正切三角函数在原点附近呈线性特性。所以，r屏就会展示的很细腻。</p>
-<p>基于上面的分析，回到上面的图。假设我们看右边高PPI(像素边长为h)屏幕时，眼到屏幕距离为d，而我们看左边的低PPI(像素边长为2h)屏幕时，离得远一些，让眼睛到屏幕距离为2d，代回公式中，这两种情境下人眼看像素的视角是近似相等的，在视网膜成像尺寸也近似相等，即最终从眼睛接收的视觉效果来看，二者并无区别。</p>
-<p>举例说明，一台27寸的4k显示器，分辨率是3840x2160，PPI约为160，开启HiDPI模式后，若以50cm的距离观看屏幕，那么在视觉上与在25cm距离看326PPI的iPhone是没有差异的（320/50=160/25），而“以25cm距离看326PPI”恰恰是retina屏幕的标准。也就是说，我以50cm的视距来观看HiDPI渲染下的27寸4k显示器会体验到放大一倍的rMBP屏幕的感觉。小于这个距离时，显示效果依旧很细腻，但是屏幕的颗粒感会变得更明显。 这里我们可以粗略地下个结论，在HiDPI的渲染下，只要适当增加人眼到屏幕的距离，非r屏也能给人眼以r屏的视觉体验。</p>
-<p>所以，在低PPI的情况下，可以得到：<br><strong>HiDPI渲染 + 高分辨率 + 远视距 = 近似于retina的视觉效果</strong></p>
-<p>最后，Mac OS X操作系统在任何情况下都支持HiDPI渲染么？在r屏产品中自然是默认开启的；在非r屏中，显示器屏幕达4k及以上且系统为Yosemite及以上时，会支持用户手动调整渲染等级，而在显示器分辨率小于4k时，则需要用户强制开启HiDPI模式，也就是我们上面所说的方法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
         </p>
       
 

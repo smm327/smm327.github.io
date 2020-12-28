@@ -6,15 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 孙苗苗的博客</title>
+  <title>函数计算版本管理 | 孙苗苗的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="孙苗苗的博客">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="本文记录了使用阿里云函数计算的版本管理功能，以及在开发集成中遇到的问题。 版本版本相当于服务的快照，包括服务的配置、服务内的函数代码及函数配置，不包括触发器。当您发布版本时，函数计算会为服务生成快照，并自动分配一个版本号与其关联，以供后续使用。版本发布后不能更改，且版本号单调递增，不会被重复使用。 没有版本功能在服务上的每次改动都会立即影响到线上，虽然函数计算的重新部署很快，但对于已经上线并存在一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数计算版本管理">
+<meta property="og:url" content="http://yoursite.com/2020/12/27/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="孙苗苗的博客">
+<meta property="og:description" content="本文记录了使用阿里云函数计算的版本管理功能，以及在开发集成中遇到的问题。 版本版本相当于服务的快照，包括服务的配置、服务内的函数代码及函数配置，不包括触发器。当您发布版本时，函数计算会为服务生成快照，并自动分配一个版本号与其关联，以供后续使用。版本发布后不能更改，且版本号单调递增，不会被重复使用。 没有版本功能在服务上的每次改动都会立即影响到线上，虽然函数计算的重新部署很快，但对于已经上线并存在一">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/version.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/version1.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/prod.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/console.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/gray.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/example.png">
+<meta property="og:image" content="http://yoursite.com/images/2020-12-27/show.png">
+<meta property="article:published_time" content="2020-12-27T07:37:59.000Z">
+<meta property="article:modified_time" content="2020-12-28T12:54:26.886Z">
 <meta property="article:author" content="孙苗苗">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/2020-12-27/version.png">
   
     <link rel="alternative" href="/atom.xml" title="孙苗苗的博客" type="application/atom+xml">
   
@@ -150,197 +162,186 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-函数计算版本管理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      函数计算版本管理
+    </h1>
+  
+
+        
+        <a href="/2020/12/27/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-12-27T07:37:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文记录了使用阿里云函数计算的版本管理功能，以及在开发集成中遇到的问题。</p>
+<h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><p>版本相当于服务的快照，包括服务的配置、服务内的函数代码及函数配置，不包括触发器。当您发布版本时，函数计算会为服务生成快照，并自动分配一个版本号与其关联，以供后续使用。版本发布后不能更改，且版本号单调递增，不会被重复使用。</p>
+<p>没有版本功能在服务上的每次改动都会立即影响到线上，虽然函数计算的重新部署很快，但对于已经上线并存在一定量用户的服务，日后的开发、测试以及上线就很麻烦。<br>有了版本功能，您可以在测试稳定后发布服务版本，用稳定的版本来服务线上请求，并且可以继续在 LATEST 版本上开发测试。<br><img src="/images/2020-12-27/version.png" alt="version"></p>
+<h2 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h2><p>别名可以理解为指向特定服务版本的指针，是函数计算的一种资源。别名无法脱离服务或版本单独存在。使用别名访问服务或函数时，函数计算会将别名解析为其指向的版本，调用方无需了解别名指向的具体版本。可以利用别名来轻松实现发布、回滚以及灰度发布等功能。</p>
+<p>例如，客户端是通过 http 触发器来调用函数的，每次新版本上线，您需要手动修改 HTTP 触发器关联的版本号，并且在修改的过程中会影响客户端的使用。而如果使用别名进行版本管理，您可以实现版本的平滑升级。</p>
+<p>设置别名 PROD 指向稳定的版本 1。若您的函数下存在触发器，设置触发器关联别名 PROD，客户端直接通过别名 PROD 调用版本 1 下的函数。</p>
+<p><img src="/images/2020-12-27/version1.png" alt="version1"></p>
+<p>发布版本 1 后，继续在 LATEST 版本上进行新功能的开发，而线上客户端是通过别名调用对应版本下的函数，所以线上调用的还是版本 1。当新功能经过测试稳定后，则发布版本 2，然后将别名 PROD 指向版本 2，这样就完成版本的更新。如果版本 2 有问题，需要回滚，只需要把别名 PROD 指回版本 1 即可。通过这种方式发布，不需要频繁更新触发器，也不会影响客户端的使用。<br><img src="/images/2020-12-27/prod.png" alt="prod"></p>
+<p>如下为在 template.yml 中设置别名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Events:</span><br><span class="line">  httpTrigger:</span><br><span class="line">    Type: HTTP</span><br><span class="line">    Properties:</span><br><span class="line">      AuthType: ANONYMOUS</span><br><span class="line">      Qualifier: ONLINE</span><br><span class="line">      Methods:</span><br><span class="line">        - GET</span><br><span class="line">        - POST</span><br></pre></td></tr></table></figure>
+
+<h2 id="版本操作"><a href="#版本操作" class="headerlink" title="版本操作"></a>版本操作</h2><p>可以在<a href="https://fc.console.aliyun.com/fc/overview/cn-beijing" target="_blank" rel="noopener">函数计算控制台</a>中操作版本，如下图所示：<br><img src="/images/2020-12-27/console.png" alt="console"></p>
+<h2 id="别名操作"><a href="#别名操作" class="headerlink" title="别名操作"></a>别名操作</h2><p>同样在控制台中可以切换别名，如上图版本旁边。</p>
+<p>在这里需要提一下，别名是可以设置灰度的，它的灰度是按权重做的，跟我们目前的灰度方案不一致所以在这里没有使用。如下图所示：<br><img src="/images/2020-12-27/gray.png" alt="gray"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>了解了相关知识，我们可以开心的使用函数计算的版本管理了，再也不用担心线上版本出问题了！ 😄<br>首先，先看看官方的示例：<br><img src="/images/2020-12-27/example.png" alt="example"></p>
+<ol>
+<li>准备函数，这里就不赘述这个过程了。</li>
+<li>发布版本，在函数控制台中发布版本</li>
+<li>使用别名切换流量，创建别名，并在触发器中使用别名，发布灰度版本稳定后全量切换至新版本</li>
+</ol>
+<p>使用在我们日常的 sprint 开发中，则是在开发和集成期间使用 LATEST （LATEST 为函数计算占用的默认版本名称，别名名称不能使用）版本进行开发测试，然后在集成结束后发布版本并修改别名。<br>这里需要注意的问题有以下两点，这也是在目前这个模式的开发中没有解决的问题，还希望大家能提供宝贵的意见：</p>
+<ol>
+<li>在集成结束后需要更改客户端的调用路径，改为线上版本</li>
+<li>因为我们的上线是有灰度版本的，而这里的别名修改是全量修改为最新发布的版本，所以在开发时需要注意对历史版本的兼容</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h4 id="1-如何确定被调用的服务的版本？"><a href="#1-如何确定被调用的服务的版本？" class="headerlink" title="1.如何确定被调用的服务的版本？"></a>1.如何确定被调用的服务的版本？</h4><ul>
+<li>通过日志确定</li>
+<li>通过 context 入参确定</li>
+<li>通过同步函数调用响应确定</li>
+</ul>
+<h4 id="2-如何查看不同版本的日志"><a href="#2-如何查看不同版本的日志" class="headerlink" title="2.如何查看不同版本的日志"></a>2.如何查看不同版本的日志</h4><p>如下图所示，可以在函数控制台中切换不同的服务版本：<br><img src="/images/2020-12-27/show.png" alt="show"></p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://help.aliyun.com/document_detail/96464.html?spm=a2c4g.11186623.3.3.50d91caccywKsC" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/96464.html?spm=a2c4g.11186623.3.3.50d91caccywKsC</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-01-01T13:24:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/">2k屏幕开启HiDPI</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2019-12-22T09:18:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/22/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E7%9A%84%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">前端框架的文件结构</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-          
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/12/27/%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/" class="archive-article-date">
-  	<time datetime="2019-12-16T14:14:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/07/%E5%88%9D%E6%8E%A2NextJs%E5%8F%8A%E9%83%A8%E7%BD%B2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">初探NextJs及部署</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/16/Git%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86%E6%8F%AD%E7%A7%98/">Git内部原理揭秘</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/" class="archive-article-date">
-  	<time datetime="2019-11-19T10:40:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/19/Git%E6%81%A2%E5%A4%8D-Reset%E3%80%81Revert/">Git恢复-Reset、Revert</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/23/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%A4%A7%E5%9E%8BReact%E5%BA%94%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2019-10-23T10:37:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/23/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%A4%A7%E5%9E%8BReact%E5%BA%94%E7%94%A8/">如何构建大型React应用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/25/React%E5%92%8CVue%E7%BB%84%E4%BB%B6%E9%97%B4%E9%80%9A%E4%BF%A1/" class="archive-article-date">
-  	<time datetime="2019-09-25T10:29:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/25/React%E5%92%8CVue%E7%BB%84%E4%BB%B6%E9%97%B4%E9%80%9A%E4%BF%A1/">React和Vue组件间通信</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -364,8 +365,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
