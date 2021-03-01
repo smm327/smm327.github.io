@@ -16,7 +16,7 @@
 <meta property="og:description" content="事情是这样的，首先，我收到了一个 Bug，看了一下定位到是编码的问题，于是加了个 encodeURIComponent 很快这个 Bug 就修复上线了。 先大概描述一下这个 Bug，在任意官网上搜索职位，关键字为“C++”或者“c++”则搜索不到，但是搜索“C”或者“c”都可以搜到。看了一下，该官网确实有这个职位，而我们请求的接口，传的 keyword 为“C&amp;nbsp;&amp;nbsp;”或者“c&amp;n">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-28T07:21:50.000Z">
-<meta property="article:modified_time" content="2021-03-01T10:57:41.220Z">
+<meta property="article:modified_time" content="2021-03-01T11:04:54.825Z">
 <meta property="article:author" content="孙苗苗">
 <meta name="twitter:card" content="summary">
   
@@ -257,7 +257,6 @@
 
 <p>经过一系列的寻找，终于在 utils.decode 中找到了“+”丢失的真正原因：qs 把它全局替换了。确实作为一个非法的 url 字符它不应该出现，但全局替换的操作也是我没想到的。</p>
 <p>事实证明，对于一些非法的字符还是要编码之后再放入 url 中，非则第三方库会对它们进行什么操作是我们完全不知道的。</p>
-<p>这个问题算是告一段落，紧接着又有一个蜜汁 Bug 找到我了。又是官网的问题，内心 os：官网问题好多呀。。。。。</p>
 
       
 
