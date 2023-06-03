@@ -152,6 +152,136 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mac装机指南" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/02/mac%E8%A3%85%E6%9C%BA%E6%8C%87%E5%8D%97/">前端mac装机必备</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/02/mac%E8%A3%85%E6%9C%BA%E6%8C%87%E5%8D%97/" class="archive-article-date">
+  	<time datetime="2023-02-02T09:46:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为一个前端仔，虽然不用装很多环境，一个 VS Code 就可以写代码，但拥有以下工具能让你的开发顺畅不少。这些内容虽然平时用的不多，但每次装机还需要各处去找，属实有些麻烦，最近闲来无事，总结一波。</p>
+<h3 id="homebrew"><a href="#homebrew" class="headerlink" title="homebrew"></a>homebrew</h3><p>推荐使用中科大镜像，会快很多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;ineo6&#x2F;homebrew-install&#x2F;install)&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
+
+<h3 id="item2-配置"><a href="#item2-配置" class="headerlink" title="item2 配置"></a>item2 配置</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>· 可以去 <a href="https://iterm2.com/downloads.html" target="_blank" rel="noopener">iTerm2</a>官网，下载并安装<br>· <em>可以直接使用 Homebrew 进行安装</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install iterm2</span><br></pre></td></tr></table></figure>
+
+<h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>Term2 最常用的主题是 Solarized Dark theme，下载地址：<a href="https://ethanschoonover.com/solarized" target="_blank" rel="noopener">https://ethanschoonover.com/solarized</a></p>
+<p>下载的是压缩文件，你先解压一下，然后打开 iTerm2，按 【Command + , 】键，打开 Preferences 配置界面，然后 Profiles -&gt; Colors -&gt; Color Presets -&gt; Import，选择刚才解压的 solarized -&gt; iterm2-colors-solarized -&gt; Solarized Dark.itermcolors 文件，导入成功，最后选择 Solarized Dark 主题，就可以了。</p>
+<h4 id="配置-oh-my-zsh"><a href="#配置-oh-my-zsh" class="headerlink" title="配置 oh-my-zsh"></a>配置 oh-my-zsh</h4><p>oh-my-zsh 是对主题的进一步扩展， Github 地址：<a href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">https://github.com/ohmyzsh/ohmyzsh</a><br>安装方式：</p>
+<ol>
+<li>curl 安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><em>wget 安装</em></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(wget -O- https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>安装好之后，需要把 zsh 设置为当前用户的默认 shell（这样新建命令的时候才会使用 zsh）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ chsh -s &#x2F;bin&#x2F;zsh</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 然后，我们用 vim 命令编辑 ~&#x2F;.zshrc 文件，将主题配置修改为 ZSH_THEME&#x3D;&quot;agnoster&quot;。</span><br><span class="line">$ vim ~&#x2F;.zshrc</span><br><span class="line"></span><br><span class="line"># If you come from bash you might have to change your $PATH.</span><br><span class="line"># export PATH&#x3D;$HOME&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;bin:$PATH</span><br><span class="line"></span><br><span class="line"># Path to your oh-my-zsh installation.</span><br><span class="line">export ZSH&#x3D;&quot;&#x2F;Users&#x2F;linan&#x2F;.oh-my-zsh&quot;</span><br><span class="line"></span><br><span class="line"># Set name of the theme to load --- if set to &quot;random&quot;, it will</span><br><span class="line"># load a random theme each time oh-my-zsh is loaded, in which case,</span><br><span class="line"># to know which specific one was loaded, run: echo $RANDOM_THEME</span><br><span class="line"># See https:&#x2F;&#x2F;github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;wiki&#x2F;Themes</span><br><span class="line">ZSH_THEME&#x3D;&quot;agnoster&quot;       &#x2F;&#x2F; 修改主题</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置-Meslo-字体"><a href="#配置-Meslo-字体" class="headerlink" title="配置 Meslo 字体"></a>配置 Meslo 字体</h4><p>使用上面的主题，需要 Meslo 字体支持，要不然会出现乱码的情况，字体下载地址：<a href="https://github.com/WebAhmed/dotfiles/blob/ee0dd98689a1d68ae8ed755dc4e724a096ca8e7b/fonts/Meslo%20Dotted/Meslo%20LG%20M%20DZ%20Regular%20for%20Powerline.ttf" target="_blank" rel="noopener">Meslo LG M DZ Regular for Powerline.ttf</a></p>
+<p>下载好之后，直接在 macOS 中双击安装即可。</p>
+<p>然后打开 iTerm2，按【Command + , 】键，打开 Preferences 配置界面，然后 Profiles -&gt; Text -&gt; Font -&gt; Chanage Font，选择 Meslo LG M DZ Regular for Powerline 字体。</p>
+<h4 id="声明高亮"><a href="#声明高亮" class="headerlink" title="声明高亮"></a>声明高亮</h4><p>特殊命令和错误命令的高亮显示。</p>
+<p>使用 Homebrew 安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+
+<p>安装成功之后，用 vim 命令编辑 ~/.zshrc 文件，在最后一行增加下面配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...................</span><br><span class="line"># Compilation flags</span><br><span class="line"># export ARCHFLAGS&#x3D;&quot;-arch x86_64&quot;</span><br><span class="line"></span><br><span class="line"># Set personal aliases, overriding those provided by oh-my-zsh libs,</span><br><span class="line"># plugins, and themes. Aliases can be placed here, though oh-my-zsh</span><br><span class="line"># users are encouraged to define aliases within the ZSH_CUSTOM folder.</span><br><span class="line"># For a full list of active aliases, run &#96;alias&#96;.</span><br><span class="line">#</span><br><span class="line"># Example aliases</span><br><span class="line"># alias zshconfig&#x3D;&quot;mate ~&#x2F;.zshrc&quot;</span><br><span class="line"># alias ohmyzsh&#x3D;&quot;mate ~&#x2F;.oh-my-zsh&quot;</span><br><span class="line">source &#x2F;usr&#x2F;local&#x2F;share&#x2F;zsh-syntax-highlighting&#x2F;zsh-syntax-highlighting.zsh</span><br></pre></td></tr></table></figure>
+
+<p>保存后，执行变量生效命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动补齐"><a href="#自动补齐" class="headerlink" title="自动补齐"></a>自动补齐</h4><p>这个功能是非常实用的，可以方便我们快速的敲命令。</p>
+<p>配置步骤，先克隆 zsh-autosuggestions 项目，到指定目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;zsh-users&#x2F;zsh-autosuggestions ~&#x2F;.oh-my-zsh&#x2F;custom&#x2F;plugins&#x2F;zsh-autosuggestions</span><br></pre></td></tr></table></figure>
+
+<p>然后，用 vim 命令编辑 ~/.zshrc 文件，找到 plugins 配置，增加 zsh-autosuggestions 插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Would you like to use another custom folder than $ZSH&#x2F;custom?</span><br><span class="line"># ZSH_CUSTOM&#x3D;&#x2F;path&#x2F;to&#x2F;new-custom-folder</span><br><span class="line"></span><br><span class="line"># Which plugins would you like to load?</span><br><span class="line"># Standard plugins can be found in $ZSH&#x2F;plugins&#x2F;</span><br><span class="line"># Custom plugins may be added to $ZSH_CUSTOM&#x2F;plugins&#x2F;</span><br><span class="line"># Example format: plugins&#x3D;(rails git textmate ruby lighthouse)</span><br><span class="line"># Add wisely, as too many plugins slow down shell startup.</span><br><span class="line">plugins&#x3D;(git zsh-autosuggestions)</span><br></pre></td></tr></table></figure>
+
+<h4 id="让终端更舒适一些"><a href="#让终端更舒适一些" class="headerlink" title="让终端更舒适一些"></a>让终端更舒适一些</h4><p>1.隐藏用户名和主机名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 注释掉context的打印，如下所示：</span><br><span class="line">prompt_context() &#123;</span><br><span class="line">  if [[ &quot;$USERNAME&quot; !&#x3D; &quot;$DEFAULT_USER&quot; || -n &quot;$SSH_CLIENT&quot; ]]; then</span><br><span class="line">#    prompt_segment black default &quot;%(!.%&#123;%F&#123;yellow&#125;%&#125;.)%n@%m&quot;</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.Zsh 中将全路径缩短为当前文件夹名<br>经过上述配置，一般会有一层一层的目录，但这样实在太长太占地方，而且截屏时也不方便把全路径显示出来。所以需要隐藏起来会比较方便，需要看全路径的话一句<strong>pwd</strong>就显示了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Dir: current working directory</span><br><span class="line">prompt_dir() &#123;</span><br><span class="line">    #prompt_segment blue $CURRENT_FG &#39;%~&#39; # 全路径展示</span><br><span class="line">    prompt_segment blue $CURRENT_FG &#39;%c&#39; # 当前路径展示</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以上斜体是我没用到的方法，理论上都可行，只是用了一个自己更顺手的方法</p>
+</blockquote>
+<h3 id="M1-2k-显示器开启-HiDPI"><a href="#M1-2k-显示器开启-HiDPI" class="headerlink" title="M1 2k 显示器开启 HiDPI"></a>M1 2k 显示器开启 HiDPI</h3><p>为什么要开启 HiDPI，以及 Intel 处理器的开启方式，请移步至<a href="https://smm327.github.io/2020/01/01/2k%E5%B1%8F%E5%B9%95%E7%9A%84HiDPI%E6%A8%A1%E5%BC%8F/" target="_blank" rel="noopener">这里</a>。</p>
+<p>下面要说的是 M1 Mac 开启 HiDPI 的方法。</p>
+<p>首先先看看原理：<br>在 macOS 的显示偏好设置中添加一个 dummy display（模拟出来的假屏幕），支持通过软件参数设置支持各种分辨率和 hiDPI 缩放方式。你只需要将你的 2K 显示器的内容设置为这个假屏幕的镜像即可完美 HiDPI。配置方便，无需关闭 SIP，无需额外硬件，不会废掉 HDMI 口，性能损失小。</p>
+<p>再看看开启的步骤：</p>
+<ol>
+<li>下载 <a href="https://github.com/waydabber/BetterDisplay" target="_blank" rel="noopener">BetterDummy</a>；</li>
+<li>打开 BetterDummy， <strong>Creat new dummy</strong>，比如我是针对 2560*1440 分辨率的屏，就选最上面的 16:9 即可；</li>
+<li>进入电脑的 系统偏好设置-&gt; 显示器 -&gt; 显示器设置， 可以看到除了 mbp 自带的屏和外接的 2k 屏，还有一个新添加的虚拟屏 Dummy。然后将外接屏设置为虚拟屏的镜像；</li>
+<li>这时外接的 2k 屏似乎没有发生变化，别着急，回到这个软件里，在 Set resolution 里选择 1920 * 1080。外接屏就能正常显示出 1920*1080 的效果啦。</li>
+</ol>
+<blockquote>
+<p>注意：外接屏在滚动屏幕时会出现微弱的闪屏现象，把显示器连接线拔下来重插可以解决这个问题。</p>
+</blockquote>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://cloud.tencent.com/developer/article/1936468" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1936468</a><br><a href="https://blog.csdn.net/ymyz1229/article/details/122036503" target="_blank" rel="noopener">https://blog.csdn.net/ymyz1229/article/details/122036503</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/02/mac%E8%A3%85%E6%9C%BA%E6%8C%87%E5%8D%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-url踩坑记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1301,113 +1431,6 @@
 
 
   
-    <article id="post-入门Webpack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/18/%E5%85%A5%E9%97%A8Webpack/">入门webpack</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/18/%E5%85%A5%E9%97%A8Webpack/" class="archive-article-date">
-  	<time datetime="2020-04-18T13:15:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>webpack 大家都不陌生，但大家的水平是遇到问题百度一下，还是对各个配置都熟悉掌握就看个人的能力啦。这篇文章主要是对各个配置进行一个讲解，首先来看看这个 webpack 的配置文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&#x2F; 一个常见的&#96;webpack&#96;配置文件</span><br><span class="line">const webpack &#x3D; require(&#39;webpack&#39;);</span><br><span class="line">const HtmlWebpackPlugin &#x3D; require(&#39;html-webpack-plugin&#39;);</span><br><span class="line">const ExtractTextPlugin &#x3D; require(&#39;extract-text-webpack-plugin&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">        entry: __dirname + &quot;&#x2F;app&#x2F;main.js&quot;, &#x2F;&#x2F;已多次提及的唯一入口文件</span><br><span class="line">        output: &#123;</span><br><span class="line">            path: __dirname + &quot;&#x2F;build&quot;,</span><br><span class="line">            filename: &quot;bundle-[hash].js&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        devtool: &#39;none&#39;,</span><br><span class="line">        devServer: &#123;</span><br><span class="line">            contentBase: &quot;.&#x2F;public&quot;, &#x2F;&#x2F;本地服务器所加载的页面所在的目录</span><br><span class="line">            historyApiFallback: true, &#x2F;&#x2F;不跳转</span><br><span class="line">            inline: true,</span><br><span class="line">            hot: true</span><br><span class="line">        &#125;,</span><br><span class="line">        module: &#123;</span><br><span class="line">            rules: [&#123;</span><br><span class="line">                    test: &#x2F;(\.jsx|\.js)$&#x2F;,</span><br><span class="line">                    use: &#123;</span><br><span class="line">                        loader: &quot;babel-loader&quot;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    exclude: &#x2F;node_modules&#x2F;</span><br><span class="line">                &#125;, &#123;</span><br><span class="line">                    test: &#x2F;\.css$&#x2F;,</span><br><span class="line">                    use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">                        fallback: &quot;style-loader&quot;,</span><br><span class="line">                        use: [&#123;</span><br><span class="line">                            loader: &quot;css-loader&quot;,</span><br><span class="line">                            options: &#123;</span><br><span class="line">                                modules: true,</span><br><span class="line">                                localIdentName: &#39;[name]__[local]--[hash:base64:5]&#39;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;, &#123;</span><br><span class="line">                          loader: &quot;postcss-loader&quot;</span><br><span class="line">                        &#125;],</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        new webpack.optimize.UglifyJsPlugin(),</span><br><span class="line">        new HtmlWebpackPlugin(&#123;</span><br><span class="line">            template: __dirname + &quot;&#x2F;app&#x2F;index.tmpl.html&quot; &#x2F;&#x2F;new 一个这个插件的实例，并传入相关的参数</span><br><span class="line">        &#125;),</span><br><span class="line">        new webpack.optimize.OccurrenceOrderPlugin(),</span><br><span class="line">        new webpack.optimize.UglifyJsPlugin(),</span><br><span class="line">        new ExtractTextPlugin(&quot;style.css&quot;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="什么是-webpack"><a href="#什么是-webpack" class="headerlink" title="什么是 webpack"></a>什么是 webpack</h2><p>webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。<br>如下图所示，webpack 把你的项目当做一个整体，通过一个给定的主文件（如：index.js），从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包为一个（或多个）浏览器可识别的 JavaScript 文件。<br><img src="/images/2020-04-19/webpack.png" alt="webpack"></p>
-<h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>介绍完基本概念后，我们开始一步步的开始学习使用 Webpack。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;全局安装</span><br><span class="line">npm install -g webpack</span><br><span class="line">npm install -g webpack-cli (webpack 4+还需要安装 CLI)</span><br></pre></td></tr></table></figure>
-
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在此，需要手动创建一个如下图所示的文件：<br><img src="/images/2020-04-19/files.png" alt="files"></p>
-<h3 id="终端使用"><a href="#终端使用" class="headerlink" title="终端使用"></a>终端使用</h3><p>webpack 可以在终端中使用，在基本的使用方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># &#123;extry file&#125;出填写入口文件的路径，本文中就是上述main.js的路径，</span><br><span class="line"># &#123;destination for bundled file&#125;处填写打包文件的存放路径</span><br><span class="line">webpack &#123;entry file&#125; &#123;destination for bundled file&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="通过配置文件使用"><a href="#通过配置文件使用" class="headerlink" title="通过配置文件使用"></a>通过配置文件使用</h3><p>Webpack 拥有很多其它的比较高级的功能（比如说本文后面会介绍的 loaders 和 plugins），这些功能其实都可以通过命令行模式实现，但是不太方便且容易出错的。更好的办法是定义一个配置文件，这个配置文件其实也是一个简单的 JavaScript 模块，我们可以把所有的与打包相关的信息放在里面。<br>我们在当前文件夹下新建一个 webpack.config.js 文件:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  entry:  __dirname + &quot;&#x2F;app&#x2F;main.js&quot;,&#x2F;&#x2F;已多次提及的唯一入口文件</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + &quot;&#x2F;public&quot;,&#x2F;&#x2F;打包后的文件存放的地方</span><br><span class="line">    filename: &quot;bundle.js&quot;&#x2F;&#x2F;打包后输出文件的文件名</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="更快捷的执行打包任务"><a href="#更快捷的执行打包任务" class="headerlink" title="更快捷的执行打包任务"></a>更快捷的执行打包任务</h3><p>在 package.json 中对 scripts 对象进行相关设置</p>
-<h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><p>在介绍了使用后，我们来看看 webpack 中最主要的内容。</p>
-<p>首先是 loader。</p>
-<p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。</p>
-<p>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。</p>
-<p>loaders 需要单独安装并且需要在 webpack.config.js 中的 modules 关键字下进行配置，Loaders 的配置包括以下几方面：</p>
-<ul>
-<li>test：一个用以匹配 loaders 所处理文件的拓展名的正则表达式（必须）</li>
-<li>loader：loader 的名称（必须）</li>
-<li>include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；</li>
-<li>query：为 loaders 提供额外的设置选项（可选）</li>
-</ul>
-<p>下面简单列举了一些常用的 loader</p>
-<h3 id="babel-loader"><a href="#babel-loader" class="headerlink" title="babel-loader"></a>babel-loader</h3><p><a href="https://www.webpackjs.com/loaders/babel-loader/" target="_blank" rel="noopener">babel-loader</a> 应该是使用最多的 loader 了，它负责将 ECMAScript 2015+ 版本的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。<br>下面列举一个简单的配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">module: &#123;</span><br><span class="line">       rules: [</span><br><span class="line">           &#123;</span><br><span class="line">               test: &#x2F;(\.jsx|\.js)$&#x2F;,</span><br><span class="line">               use: &#123;</span><br><span class="line">                   loader: &quot;babel-loader&quot;,</span><br><span class="line">                   options: &#123;</span><br><span class="line">                       presets: [</span><br><span class="line">                           &quot;env&quot;, &quot;react&quot;</span><br><span class="line">                       ]</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;,</span><br><span class="line">               exclude: &#x2F;node_modules&#x2F;</span><br><span class="line">           &#125;</span><br><span class="line">       ]</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>像上面那种简单的配置可以直接放在 webpack.config.js 中，但如果 babel 的配置很复杂，也可以加.babelrc 进行配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;.babelrc</span><br><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [&quot;react&quot;, &quot;env&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="css-loader-amp-style-loader"><a href="#css-loader-amp-style-loader" class="headerlink" title="css-loader &amp; style-loader"></a>css-loader &amp; style-loader</h3><p>webpack 提供两个工具处理样式表，<a href="https://www.webpackjs.com/loaders/css-loader/" target="_blank" rel="noopener">css-loader</a> 和 <a href="https://www.webpackjs.com/loaders/style-loader/" target="_blank" rel="noopener">style-loader</a>，二者处理的任务不同，css-loader 使你能够使用类似@import 和 url(…)的方法实现 require()的功能,style-loader 将所有的计算后的样式加入页面中，二者组合在一起使你能够把样式表嵌入 webpack 打包后的 JS 文件中。<br>在过去的一些年里，JavaScript 通过一些新的语言特性，更好的工具以及更好的实践方法（比如说模块化）发展得非常迅速。模块使得开发者把复杂的代码转化为小的，干净的，依赖声明明确的单元，配合优化工具，依赖管理和加载管理可以自动完成。<br>不过前端的另外一部分，CSS 发展就相对慢一些，大多的样式表却依旧巨大且充满了全局类名，维护和修改都非常困难。<br>被称为 CSS modules 的技术意在把 JS 的模块化思想带入 CSS 中来，通过 CSS 模块，所有的类名，动画名默认都只作用于当前模块。Webpack 对 CSS 模块化提供了非常好的支持，只需要在 CSS loader 中进行简单配置即可，然后就可以直接把 CSS 的类名传递到组件的代码中，这样做有效避免了全局污染。如下所示:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: &#x2F;\.css$&#x2F;,</span><br><span class="line">            use: [</span><br><span class="line">                &#123;</span><br><span class="line">                    loader: &quot;style-loader&quot;</span><br><span class="line">                &#125;, &#123;</span><br><span class="line">                    loader: &quot;css-loader&quot;,</span><br><span class="line">                    options: &#123;</span><br><span class="line">                        modules: true, &#x2F;&#x2F; 指定启用css modules</span><br><span class="line">                        localIdentName: &#39;[name]__[local]--[hash:base64:5]&#39; &#x2F;&#x2F; 指定css的类名格式</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然，Sass 和 Less 等之类的 css 预处理器，也有它的 loader。如下：</p>
-<ul>
-<li><a href="https://www.webpackjs.com/loaders/less-loader/" target="_blank" rel="noopener">less-loader</a></li>
-<li><a href="https://www.webpackjs.com/loaders/sass-loader/" target="_blank" rel="noopener">sass-loader</a></li>
-</ul>
-<p>还存在一个 CSS 的处理平台-PostCSS，它可以帮助你的 CSS 实现更多的功能， 具体就不再罗列了，大家可以去<a href="https://github.com/postcss/postcss" target="_blank" rel="noopener">官网</a>了解</p>
-<h2 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h2><p>插件是 webpack 的支柱功能。webpack 自身也是构建于，你在 webpack 配置中用到的相同的插件系统之上！<br>插件目的在于解决 loader 无法实现的其他事。</p>
-<p>在此列出一些常用的插件，具体的内容，请移步<a href="https://www.webpackjs.com/plugins/" target="_blank" rel="noopener">webpack 官网</a>查看。<br>webpack.DefinePlugin — 在打包阶段定义全局变量<br>webpack.HashedModuledIdsPlugin — 保持 module.id 稳定<br>webpack.NoEmitOnErrorsPlugin — 屏蔽错误<br>webpack.ProvidePlugin — 提供库<br>copy-webpack-plugin — 可以帮助拷贝内容</p>
-<p>本文只是简单讲解了一些常用的 webpack 属性，其实更多的学习还是在日常开发中遇到问题，解决问题。之前自己对这块关注不多，但要成长为一个中高阶前端也应该储备这些工程化的知识。总之，继续加油吧！⛽️</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/18/%E5%85%A5%E9%97%A8Webpack/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1422,7 +1445,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2021 孙苗苗
+    		&copy; 2023 孙苗苗
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
